@@ -37,7 +37,7 @@ function asyncHandler(handler) {
 
 // get API
 app.get(
-  '/product',
+  '/products',
   asyncHandler(async (req, res) => {
     const orderBy = req.query.orderBy || 'recent';
     const page = Number(req.query.page) || 1;
@@ -70,7 +70,7 @@ app.get(
 
 // post API
 app.post(
-  '/product',
+  '/products',
   asyncHandler(async (req, res) => {
     const newProduct = await Product.create(req.body);
 
