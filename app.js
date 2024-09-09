@@ -13,6 +13,11 @@ mongoose
   .then(() => console.log('Connected to DB'));
 app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
 
+const MESSAGES = Object.freeze({
+  NOID: 'Cannot find given id.',
+  IDFORMAT: 'Invalid id format.'
+});
+
 // handler를 인자로 받아서 오류처리 해주는 함수
 function asyncHandler(handler) {
   return async (req, res) => {
@@ -22,7 +27,7 @@ function asyncHandler(handler) {
       if (e.name === 'ValidationError') {
         res.status(400).send({ message: e.message });
       } else if (e.name === 'CastError') {
-        res.status(404).send({ message: 'Cannot find given id.' });
+        res.status(404).send({ message: MESSAGES.IDFORMAT });
       } else {
         res.status(500).send({ message: e.message });
       }
@@ -48,5 +53,55 @@ app.get(
       .limit(pageSize);
 
     res.send(products);
+  })
+);
+
+// get :id API
+app.get(
+  '/product/:id',
+  asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const product = await Product.findById(id);
+
+    if (product) res.send(product);
+    else res.status(404).send({ message: MESSAGES.NOID });
+  })
+);
+
+// post API
+app.post(
+  '/product',
+  asyncHandler(async (req, res) => {
+    const newProduct = await Product.create(req.body);
+
+    res.status(201).send(newProduct);
+  })
+);
+
+// patch API
+app.patch(
+  '/product/:id',
+  asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const product = await Product.findById(id);
+    if (product) {
+      Object.keys(req.body).forEach((k) => {
+        product[k] = req.body[k];
+      });
+      await product.save();
+      res.send(product);
+    } else res.status(404).send({ message: MESSAGES.NOID });
+  })
+);
+
+// delete API
+app.delete(
+  '/product/:id',
+  asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const product = await Product.findByIdAndDelete(id);
+    if (product) {
+      res.sendStatus(204);
+    } else res.status(404).send({ message: MESSAGES.NOID });
   })
 );
