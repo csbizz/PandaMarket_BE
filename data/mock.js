@@ -154,9 +154,7 @@ const data = [
     description: '초기 데이터입니다. 초기 데이터입니다.',
     price: 100000,
     tags: [],
-    images: [
-      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991853452/5389615.png'
-    ],
+    images: [],
     favoriteCount: 10
   },
   {
@@ -164,9 +162,7 @@ const data = [
     description: '초기 데이터입니다. 초기 데이터입니다.',
     price: 100000,
     tags: [],
-    images: [
-      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991853452/5389615.png'
-    ],
+    images: [],
     favoriteCount: 10
   },
   {
@@ -454,9 +450,7 @@ const data = [
     description: '초기 데이터입니다. 초기 데이터입니다.',
     price: 100000,
     tags: [],
-    images: [
-      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991853452/5389615.png'
-    ],
+    images: [],
     favoriteCount: 10
   },
   {
@@ -464,9 +458,7 @@ const data = [
     description: '초기 데이터입니다. 초기 데이터입니다.',
     price: 100000,
     tags: [],
-    images: [
-      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991853452/5389615.png'
-    ],
+    images: [],
     favoriteCount: 10
   },
   {
@@ -754,9 +746,7 @@ const data = [
     description: '초기 데이터입니다. 초기 데이터입니다.',
     price: 100000,
     tags: [],
-    images: [
-      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991853452/5389615.png'
-    ],
+    images: [],
     favoriteCount: 10
   },
   {
@@ -764,9 +754,7 @@ const data = [
     description: '초기 데이터입니다. 초기 데이터입니다.',
     price: 100000,
     tags: [],
-    images: [
-      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991853452/5389615.png'
-    ],
+    images: [],
     favoriteCount: 10
   },
   {
@@ -1054,9 +1042,7 @@ const data = [
     description: '초기 데이터입니다. 초기 데이터입니다.',
     price: 100000,
     tags: [],
-    images: [
-      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991853452/5389615.png'
-    ],
+    images: [],
     favoriteCount: 10
   },
   {
@@ -1064,9 +1050,7 @@ const data = [
     description: '초기 데이터입니다. 초기 데이터입니다.',
     price: 100000,
     tags: [],
-    images: [
-      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Sprint_Mission/user/3/1721991853452/5389615.png'
-    ],
+    images: [],
     favoriteCount: 10
   },
   {

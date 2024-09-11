@@ -58,7 +58,7 @@ app.get(
 
 // get :id API
 app.get(
-  '/product/:id',
+  '/products/:id',
   asyncHandler(async (req, res) => {
     const id = req.params.id;
     const product = await Product.findById(id);
@@ -80,7 +80,7 @@ app.post(
 
 // patch API
 app.patch(
-  '/product/:id',
+  '/products/:id',
   asyncHandler(async (req, res) => {
     const id = req.params.id;
     const product = await Product.findById(id);
@@ -96,7 +96,7 @@ app.patch(
 
 // delete API
 app.delete(
-  '/product/:id',
+  '/products/:id',
   asyncHandler(async (req, res) => {
     const id = req.params.id;
     const product = await Product.findByIdAndDelete(id);
