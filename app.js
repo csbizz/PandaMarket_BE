@@ -47,12 +47,16 @@ app.get(
     const sortOption = { createdAt: orderBy === 'recent' ? 'asc' : 'desc' };
     const searchOption = keyword ? { $text: { $search: keyword } } : {};
 
-    const products = await Product.find(searchOption)
+    const query = Product.find(searchOption);
+    const count = await query.clone().countDocuments();
+    const products = await query
       .sort(sortOption)
       .skip((page - 1) * pageSize)
       .limit(pageSize);
 
-    res.send(products);
+    const response = { list: products, totalCount: count };
+
+    res.send(response);
   })
 );
 
