@@ -39,4 +39,12 @@ export class ProductModel {
   deleteById = async (id) => {
     return await this.model.findByIdAndDelete(id);
   };
+
+  deleteMany = async (option) => {
+    return await this.model.deleteMany(option);
+  };
+
+  insertMany = async (data) => {
+    return await this.model.insertMany(data);
+  };
 }

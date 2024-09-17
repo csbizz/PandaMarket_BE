@@ -16,19 +16,14 @@ export class ProductController {
       throw new TypeError('page and pageSize should be an integer');
     }
 
-    const products = await this.productService.getProducts({
-      orderBy,
-      page,
-      pageSize,
-      keyword,
-    });
-
-    const count = await this.productService.getCount(keyword);
-
-    res.status(200).json({
-      list: products,
-      totalCount: count,
-    });
+    res.status(200).json(
+      await this.productService.getProductsAndCount({
+        orderBy,
+        page,
+        pageSize,
+        keyword,
+      })
+    );
   };
 
   getProductById = async (req, res) => {

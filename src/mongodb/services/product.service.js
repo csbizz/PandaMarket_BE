@@ -21,17 +21,30 @@ export class ProductService {
     this.productModel = productModel;
   }
 
-  getProducts = async ({ orderBy, page, pageSize, keyword }) => {
-    return await this.productModel.findMany({
+  // getProducts = async ({ orderBy, page, pageSize, keyword }) => {
+  //   return await this.productModel.findMany({
+  //     orderBy,
+  //     page,
+  //     pageSize,
+  //     keyword,
+  //   });
+  // };
+
+  // getCount = async (keyword) => {
+  //   return await this.productModel.getCount(keyword);
+  // };
+
+  getProductsAndCount = async ({ orderBy, page, pageSize, keyword }) => {
+    const list = await this.productModel.findMany({
       orderBy,
       page,
       pageSize,
       keyword,
     });
-  };
 
-  getCount = async (keyword) => {
-    return await this.productModel.getCount(keyword);
+    const totalCount = await this.productModel.getCount(keyword);
+
+    return { list, totalCount };
   };
 
   getProductById = async (id) => {
