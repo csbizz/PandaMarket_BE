@@ -1,9 +1,8 @@
 import data from './mock.js';
 import { mongodbConnection } from '../src/mongodb/db/mongodb.connection.js';
 import { ProductModel } from '../src/mongodb/models/product.model.js';
-import { PrismaClient } from '@prisma/client';
+import { prismaClient as prisma } from '../src/postgresql/db/postgres.connection.js';
 
-const prisma = new PrismaClient();
 const Product = new ProductModel(mongodbConnection);
 
 async function main() {
