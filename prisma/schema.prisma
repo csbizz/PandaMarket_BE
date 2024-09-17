@@ -17,7 +17,7 @@ model Product {
   id            String   @id @default(uuid())
   name          String //min 1, max 10
   description   String //min 10, max 100
-  price         Int //min 0
+  price         Int //min 1
   tags          String[] @default([])
   images        String[] @default([])
   favoriteCount Int      @default(0) //min 0

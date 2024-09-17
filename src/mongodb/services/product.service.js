@@ -62,8 +62,7 @@ export class ProductService {
     Object.keys(body).forEach((k) => {
       product[k] = body[k];
     });
-    product = await this.productModel.save(product);
-    return product;
+    return await this.productModel.save(product);
   };
 
   deleteProductById = async (id) => {

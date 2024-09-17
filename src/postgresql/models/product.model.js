@@ -26,4 +26,39 @@ export class ProductModel {
       skip: page,
     });
   };
+
+  findById = async (id) => {
+    return this.model.findUnique({
+      where: {
+        id,
+      },
+    });
+  };
+
+  create = async (data) => {
+    return await this.model.create({
+      data,
+    });
+  };
+
+  update = async (id, data) => {
+    return await this.model.update({
+      where: { id },
+      data,
+    });
+  };
+
+  deleteById = async (id) => {
+    return await this.model.delete({
+      where: { id },
+    });
+  };
+
+  deleteMany = async (option) => {
+    return await this.model.deleteMany(option);
+  };
+
+  insertMany = async (data) => {
+    return await this.model.insertMany(data);
+  };
 }

@@ -14,7 +14,7 @@ const productSchema = new Schema(
       maxLength: 100,
       required: true,
     },
-    price: { type: Number, required: true, min: 0 },
+    price: { type: Number, required: true, min: 1 },
     tags: { type: [String] },
     images: { type: [String] },
     favoriteCount: { type: Number, default: 0, min: 0 },

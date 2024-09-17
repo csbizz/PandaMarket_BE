@@ -22,21 +22,37 @@ app.get(
 //   '/products/:id',
 //   mongodbAsyncHandler(mongodbProductController.getProductById)
 // );
+app.get(
+  '/products/:id',
+  postgresAsyncHandler(postgresProductController.getProductById)
+);
 
 // // post API
 // app.post(
 //   '/products/',
 //   mongodbAsyncHandler(mongodbProductController.postProduct)
 // );
+app.post(
+  '/products/',
+  postgresAsyncHandler(postgresProductController.postProduct)
+);
 
 // // patch API
 // app.patch(
 //   '/products/:id',
 //   mongodbAsyncHandler(mongodbProductController.patchProductById)
 // );
+app.patch(
+  '/products/:id',
+  postgresAsyncHandler(postgresProductController.patchProductById)
+);
 
 // // delete API
 // app.delete(
 //   '/products/:id',
 //   mongodbAsyncHandler(mongodbProductController.deleteProductById)
 // );
+app.delete(
+  '/products/:id',
+  postgresAsyncHandler(postgresProductController.deleteProductById)
+);

@@ -1,3 +1,4 @@
+import { StructError } from 'superstruct';
 import { MESSAGES } from '../../constants.js';
 import { CastError, TypeError, ValidationError } from './error.js';
 
@@ -9,7 +10,7 @@ export function asyncHandler(handler) {
     } catch (e) {
       if (e instanceof ValidationError || e instanceof TypeError) {
         res.status(400).json({ message: e.message });
-      } else if (e instanceof CastError) {
+      } else if (e instanceof StructError || e instanceof CastError) {
         res.status(404).json({ message: e.message });
       } else {
         res.status(500).json({ message: e.message });
