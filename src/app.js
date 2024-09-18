@@ -4,11 +4,21 @@ import cors from 'cors';
 // import { productController as mongodbProductController } from './mongodb/containers/product.container.js';
 import { asyncHandler as postgresAsyncHandler } from './postgresql/utils/async-handler.js';
 import { productController as postgresProductController } from './postgresql/containers/product.container.js';
+import { articleController as postgresArticleController } from './postgresql/containers/article.container.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
+
+/***************************    FOR_DEV  **************************************************/
+
+app.get(
+  '/dev/users',
+  postgresAsyncHandler(postgresArticleController.getArticles)
+);
+
+/***************************    PRODUCTS  **************************************************/
 
 // get API
 // app.get('/products', mongodbAsyncHandler(mongodbProductController.getProducts));
@@ -55,4 +65,11 @@ app.patch(
 app.delete(
   '/products/:id',
   postgresAsyncHandler(postgresProductController.deleteProductById)
+);
+
+/***************************    ARTICLE  **************************************************/
+
+app.get(
+  '/articles',
+  postgresAsyncHandler(postgresArticleController.getArticles)
 );

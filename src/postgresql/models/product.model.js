@@ -5,7 +5,7 @@ export class ProductModel {
 
   count = async (keyword) => {
     const searchOption = keyword
-      ? { where: { searchQuery: { contains: keyword } } }
+      ? { where: { productSearchQuery: { contains: keyword } } }
       : {};
 
     return await this.model.count(searchOption);

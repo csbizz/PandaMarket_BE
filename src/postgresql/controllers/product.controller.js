@@ -5,7 +5,7 @@ import { MESSAGES } from '../../constants.js';
 
 export class ProductController {
   constructor(productService) {
-    this.productService = productService;
+    this.service = productService;
   }
 
   getProducts = async (req, res) => {
@@ -19,7 +19,7 @@ export class ProductController {
     }
 
     res.status(200).json(
-      await this.productService.getProductsAndCount({
+      await this.service.getProductsAndCount({
         orderBy,
         page,
         pageSize,
@@ -32,7 +32,7 @@ export class ProductController {
     assert(req.params.id, Uuid);
     const id = req.params.id;
 
-    const product = await this.productService.getProductById(id);
+    const product = await this.service.getProductById(id);
 
     if (product) res.json(product);
     else res.status(404).json({ message: MESSAGES.NOID });
@@ -40,7 +40,7 @@ export class ProductController {
 
   postProduct = async (req, res) => {
     assert(req.body, CreateProduct);
-    const newProduct = await this.productService.postProduct(req.body);
+    const newProduct = await this.service.postProduct(req.body);
 
     res.status(201).json(newProduct);
   };
@@ -50,7 +50,7 @@ export class ProductController {
     assert(req.body, PatchProduct);
     const id = req.params.id;
 
-    const product = await this.productService.patchProductById(id, req.body);
+    const product = await this.service.patchProductById(id, req.body);
 
     if (product) res.json(product);
     else res.status(404).json({ message: MESSAGES.NOID });
@@ -60,7 +60,7 @@ export class ProductController {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     const id = req.params.id;
 
-    const product = await this.productService.deleteProductById(id);
+    const product = await this.service.deleteProductById(id);
 
     if (product) res.status(200).json(product);
     else res.status(404).json({ message: MESSAGES.NOID });
