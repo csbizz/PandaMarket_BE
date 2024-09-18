@@ -7,8 +7,8 @@ export class CommentService {
     return await this.model.findMany();
   };
 
-  getCommentsAndCursor = async ({ articleId, limit, cursor }) => {
-    return await this.model.findManyAndCursor({ articleId, limit, cursor });
+  getCommentsAndCursor = async ({ id, limit, cursor, type }) => {
+    return await this.model.findManyAndCursor({ id, limit, cursor, type });
   };
 
   getCommentById = async (id) => {

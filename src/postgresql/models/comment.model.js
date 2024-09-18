@@ -1,3 +1,5 @@
+import { TypeError } from '../utils/error.js';
+
 export class CommentModel {
   constructor(client) {
     this.model = client.comment;
@@ -7,15 +9,24 @@ export class CommentModel {
     return await this.model.findMany();
   };
 
-  findManyAndCursor = async ({ articleId, limit, cursor }) => {
+  findManyAndCursor = async ({ id, limit, cursor, type }) => {
+    let typeOption;
+    switch (type) {
+      case 'article':
+        typeOption = { articleId: id };
+        break;
+      case 'product':
+        typeOption = { productId: id };
+        break;
+      default:
+        throw new TypeError('find type must be article or product');
+    }
     const pageOption = cursor ? { skip: 1, cursor: { id: cursor } } : {};
 
     const comments = await this.model.findMany({
       ...pageOption,
       take: limit,
-      where: {
-        articleId,
-      },
+      where: typeOption,
     });
     const nextCursor = comments.at(-1).id;
 

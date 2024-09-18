@@ -45,6 +45,12 @@ app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
     postgresAsyncHandler(postgresProductController.getProductById)
   );
 
+  // get :id/comments API
+  app.get(
+    '/products/:id/comments',
+    postgresAsyncHandler(postgresCommentController.getCommentsOfProduct)
+  );
+
   // post API
   // app.post(
   //   '/products/',
