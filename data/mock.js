@@ -1417,6 +1417,157 @@ const articles = [
   },
 ];
 
-const comments = [];
+const comments = [
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+  {
+    content: '테스트코멘트1',
+  },
+  {
+    content: '테스트코멘트2',
+  },
+  {
+    content: '테스트코멘트3',
+  },
+  {
+    content: '테스트코멘트4',
+  },
+  {
+    content: '테스트코멘트5',
+  },
+];
 
 export { users, products, articles, comments };

@@ -1,8 +1,9 @@
 import * as s from 'superstruct';
 import isUuid from 'is-uuid';
 
-const mongodbId = s.size(s.string(), 24, 24);
+const MongodbId = s.size(s.string(), 24, 24);
 const Uuid = s.define('Uuid', (value) => isUuid.v4(value));
+const Cursor = s.optional(Uuid);
 
 const CreateProduct = s.object({
   name: s.size(s.string(), 1, 10),
@@ -19,14 +20,24 @@ const CreateArticle = s.object({
   ownerId: Uuid,
 });
 
+const CreateComment = s.object({
+  content: s.string(),
+  ownerId: Uuid,
+  articleId: Uuid,
+});
+
 const PatchProduct = s.partial(CreateProduct);
 const PatchArticle = s.partial(CreateArticle);
+const PatchComment = s.partial(CreateComment);
 
 export {
-  mongodbId,
+  MongodbId,
   Uuid,
+  Cursor,
   CreateProduct,
   CreateArticle,
+  CreateComment,
   PatchProduct,
   PatchArticle,
+  PatchComment,
 };

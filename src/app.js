@@ -6,6 +6,7 @@ import { asyncHandler as postgresAsyncHandler } from './postgresql/utils/async-h
 import { productController as postgresProductController } from './postgresql/containers/product.container.js';
 import { articleController as postgresArticleController } from './postgresql/containers/article.container.js';
 import { userController as postgresUserController } from './postgresql/containers/user.container.js';
+import { commentController as postgresCommentController } from './postgresql/containers/comment.container.js';
 
 const app = express();
 app.use(cors());
@@ -81,6 +82,12 @@ app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
     postgresAsyncHandler(postgresArticleController.getArticleById)
   );
 
+  // get :id/comments API
+  app.get(
+    '/articles/:id/comments',
+    postgresAsyncHandler(postgresCommentController.getCommentsOfArticle)
+  );
+
   // post API
   app.post(
     '/articles/',
@@ -97,5 +104,20 @@ app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
   app.delete(
     '/articles/:id',
     postgresAsyncHandler(postgresArticleController.deleteArticleById)
+  );
+}
+
+/***************************    COMMENT  **************************************************/
+{
+  // patch API
+  app.patch(
+    '/articles/:id',
+    postgresAsyncHandler(postgresCommentController.patchCommentById)
+  );
+
+  // delete API
+  app.delete(
+    '/articles/:id',
+    postgresAsyncHandler(postgresCommentController.deleteCommentById)
   );
 }

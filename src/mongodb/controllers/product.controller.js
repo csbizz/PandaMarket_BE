@@ -1,7 +1,7 @@
 import { assert } from 'superstruct';
 import { MESSAGES } from '../../constants.js';
 import { TypeError } from '../utils/error.js';
-import { mongodbId } from '../../struct.js';
+import { MongodbId } from '../../struct.js';
 
 export class ProductController {
   constructor(productService) {
@@ -29,7 +29,7 @@ export class ProductController {
   };
 
   getProductById = async (req, res) => {
-    assert(req.params.id, mongodbId, MESSAGES.IDFORMAT);
+    assert(req.params.id, MongodbId, MESSAGES.IDFORMAT);
     const id = req.params.id;
 
     const product = await this.productService.getProductById(id);
@@ -45,7 +45,7 @@ export class ProductController {
   };
 
   patchProductById = async (req, res) => {
-    assert(req.params.id, mongodbId, MESSAGES.IDFORMAT);
+    assert(req.params.id, MongodbId, MESSAGES.IDFORMAT);
     const id = req.params.id;
 
     const product = await this.productService.patchProductById(id, req.body);
@@ -55,7 +55,7 @@ export class ProductController {
   };
 
   deleteProductById = async (req, res) => {
-    assert(req.params.id, mongodbId, MESSAGES.IDFORMAT);
+    assert(req.params.id, MongodbId, MESSAGES.IDFORMAT);
     const id = req.params.id;
 
     const product = await this.productService.deleteProductById(id);
