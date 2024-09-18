@@ -5,6 +5,7 @@ import cors from 'cors';
 import { asyncHandler as postgresAsyncHandler } from './postgresql/utils/async-handler.js';
 import { productController as postgresProductController } from './postgresql/containers/product.container.js';
 import { articleController as postgresArticleController } from './postgresql/containers/article.container.js';
+import { userController as postgresUserController } from './postgresql/containers/user.container.js';
 
 const app = express();
 app.use(cors());
@@ -13,10 +14,7 @@ app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
 
 /***************************    FOR_DEV  **************************************************/
 
-app.get(
-  '/dev/users',
-  postgresAsyncHandler(postgresArticleController.getArticles)
-);
+app.get('/dev/users', postgresAsyncHandler(postgresUserController.getUsers));
 
 /***************************    PRODUCTS  **************************************************/
 

@@ -1254,7 +1254,168 @@ const products = [
   },
 ];
 
-const articles = [];
+const articles = [
+  {
+    title: '테스트1',
+    content: '테스트1',
+  },
+  {
+    title: '테스트2',
+    content: '테스트2',
+  },
+  {
+    title: '테스트3',
+    content: '테스트3',
+  },
+  {
+    title: '테스트4',
+    content: '테스트4',
+  },
+  {
+    title: '테스트5',
+    content: '테스트5',
+  },
+  {
+    title: '테스트1',
+    content: '테스트1',
+  },
+  {
+    title: '테스트2',
+    content: '테스트2',
+  },
+  {
+    title: '테스트3',
+    content: '테스트3',
+  },
+  {
+    title: '테스트4',
+    content: '테스트4',
+  },
+  {
+    title: '테스트5',
+    content: '테스트5',
+  },
+  {
+    title: '테스트1',
+    content: '테스트1',
+  },
+  {
+    title: '테스트2',
+    content: '테스트2',
+  },
+  {
+    title: '테스트3',
+    content: '테스트3',
+  },
+  {
+    title: '테스트4',
+    content: '테스트4',
+  },
+  {
+    title: '테스트5',
+    content: '테스트5',
+  },
+  {
+    title: '테스트1',
+    content: '테스트1',
+  },
+  {
+    title: '테스트2',
+    content: '테스트2',
+  },
+  {
+    title: '테스트3',
+    content: '테스트3',
+  },
+  {
+    title: '테스트4',
+    content: '테스트4',
+  },
+  {
+    title: '테스트5',
+    content: '테스트5',
+  },
+  {
+    title: '테스트1',
+    content: '테스트1',
+  },
+  {
+    title: '테스트2',
+    content: '테스트2',
+  },
+  {
+    title: '테스트3',
+    content: '테스트3',
+  },
+  {
+    title: '테스트4',
+    content: '테스트4',
+  },
+  {
+    title: '테스트5',
+    content: '테스트5',
+  },
+  {
+    title: '테스트1',
+    content: '테스트1',
+  },
+  {
+    title: '테스트2',
+    content: '테스트2',
+  },
+  {
+    title: '테스트3',
+    content: '테스트3',
+  },
+  {
+    title: '테스트4',
+    content: '테스트4',
+  },
+  {
+    title: '테스트5',
+    content: '테스트5',
+  },
+  {
+    title: '테스트1',
+    content: '테스트1',
+  },
+  {
+    title: '테스트2',
+    content: '테스트2',
+  },
+  {
+    title: '테스트3',
+    content: '테스트3',
+  },
+  {
+    title: '테스트4',
+    content: '테스트4',
+  },
+  {
+    title: '테스트5',
+    content: '테스트5',
+  },
+  {
+    title: '테스트1',
+    content: '테스트1',
+  },
+  {
+    title: '테스트2',
+    content: '테스트2',
+  },
+  {
+    title: '테스트3',
+    content: '테스트3',
+  },
+  {
+    title: '테스트4',
+    content: '테스트4',
+  },
+  {
+    title: '테스트5',
+    content: '테스트5',
+  },
+];
 
 const comments = [];
 
