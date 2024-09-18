@@ -3,7 +3,11 @@ export class CommentService {
     this.model = commentModel;
   }
 
-  getCommentsAndCount = async ({ articleId, limit, cursor }) => {
+  getComments = async () => {
+    return await this.model.findMany();
+  };
+
+  getCommentsAndCursor = async ({ articleId, limit, cursor }) => {
     return await this.model.findManyAndCursor({ articleId, limit, cursor });
   };
 

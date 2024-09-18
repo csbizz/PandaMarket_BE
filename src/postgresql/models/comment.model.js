@@ -3,17 +3,21 @@ export class CommentModel {
     this.model = client.comment;
   }
 
+  findMany = async () => {
+    return await this.model.findMany();
+  };
+
   findManyAndCursor = async ({ articleId, limit, cursor }) => {
     const pageOption = cursor ? { skip: 1, cursor: { id: cursor } } : {};
 
-    const comments = await this.service.getCommentsAndCount({
+    const comments = await this.model.findMany({
       ...pageOption,
       take: limit,
       where: {
         articleId,
       },
     });
-    const nextCursor = comments[limit - 1].id;
+    const nextCursor = comments.at(-1).id;
 
     return { nextCursor, list: comments };
   };

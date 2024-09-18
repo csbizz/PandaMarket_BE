@@ -8,19 +8,23 @@ export class CommentController {
     this.service = commentService;
   }
 
+  getCommentsDev = async (req, res) => {
+    res.status(200).json(await this.service.getComments());
+  };
+
   getCommentsOfArticle = async (req, res) => {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
-    assert(req.params.cursor, Cursor, MESSAGES.IDFORMAT);
+    assert(req.query.cursor, Cursor, MESSAGES.IDFORMAT);
     const articleId = req.params.id;
     const limit = Number(req.query.limit) || 10;
-    const cursor = req.params.cursor;
+    const cursor = req.query.cursor;
 
     if (isNaN(limit)) {
       throw new TypeError('limit should be an integer');
     }
 
     res.status(200).json(
-      await this.service.getCommentsAndCount({
+      await this.service.getCommentsAndCursor({
         articleId,
         limit,
         cursor,

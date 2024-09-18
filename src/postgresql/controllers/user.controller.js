@@ -5,7 +5,7 @@ export class UserController {
     this.service = userService;
   }
 
-  getUsers = async (req, res) => {
+  getUsersDev = async (req, res) => {
     const orderBy = req.query.orderBy || 'recent';
     const page = Number(req.query.page) || 1;
     const pageSize = Number(req.query.pageSize) || 10;

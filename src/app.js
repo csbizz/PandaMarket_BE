@@ -15,7 +15,15 @@ app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
 
 /***************************    FOR_DEV  **************************************************/
 {
-  app.get('/dev/users', postgresAsyncHandler(postgresUserController.getUsers));
+  app.get(
+    '/dev/users',
+    postgresAsyncHandler(postgresUserController.getUsersDev)
+  );
+
+  app.get(
+    '/dev/comments',
+    postgresAsyncHandler(postgresCommentController.getCommentsDev)
+  );
 }
 
 /***************************    PRODUCTS  **************************************************/
