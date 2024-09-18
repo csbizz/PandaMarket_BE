@@ -33,4 +33,31 @@ export class ArticleModel {
       skip: page,
     });
   };
+
+  findById = async (id) => {
+    return this.model.findUnique({
+      where: {
+        id,
+      },
+    });
+  };
+
+  create = async (data) => {
+    return await this.model.create({
+      data,
+    });
+  };
+
+  update = async (id, data) => {
+    return await this.model.update({
+      where: { id },
+      data,
+    });
+  };
+
+  deleteById = async (id) => {
+    return await this.model.delete({
+      where: { id },
+    });
+  };
 }

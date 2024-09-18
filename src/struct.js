@@ -10,9 +10,23 @@ const CreateProduct = s.object({
   price: s.min(s.integer(), 1),
   tags: s.optional(s.array(s.max(s.string(), 5))),
   images: s.optional(s.array(s.string())),
-  favoriteCount: s.optional(s.min(s.integer(), 0)),
+});
+
+const CreateArticle = s.object({
+  title: s.string(),
+  content: s.string(),
+  images: s.optional(s.array(s.string())),
+  ownerId: Uuid,
 });
 
 const PatchProduct = s.partial(CreateProduct);
+const PatchArticle = s.partial(CreateArticle);
 
-export { mongodbId, Uuid, CreateProduct, PatchProduct };
+export {
+  mongodbId,
+  Uuid,
+  CreateProduct,
+  CreateArticle,
+  PatchProduct,
+  PatchArticle,
+};

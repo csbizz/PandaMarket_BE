@@ -53,12 +53,4 @@ export class ProductModel {
       where: { id },
     });
   };
-
-  deleteMany = async (option) => {
-    return await this.model.deleteMany(option);
-  };
-
-  insertMany = async (data) => {
-    return await this.model.insertMany(data);
-  };
 }

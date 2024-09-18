@@ -13,61 +13,89 @@ app.use(express.json());
 app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
 
 /***************************    FOR_DEV  **************************************************/
-
-app.get('/dev/users', postgresAsyncHandler(postgresUserController.getUsers));
+{
+  app.get('/dev/users', postgresAsyncHandler(postgresUserController.getUsers));
+}
 
 /***************************    PRODUCTS  **************************************************/
+{
+  // get API
+  // app.get('/products', mongodbAsyncHandler(mongodbProductController.getProducts));
+  app.get(
+    '/products',
+    postgresAsyncHandler(postgresProductController.getProducts)
+  );
 
-// get API
-// app.get('/products', mongodbAsyncHandler(mongodbProductController.getProducts));
-app.get(
-  '/products',
-  postgresAsyncHandler(postgresProductController.getProducts)
-);
+  // get :id API
+  // app.get(
+  //   '/products/:id',
+  //   mongodbAsyncHandler(mongodbProductController.getProductById)
+  // );
+  app.get(
+    '/products/:id',
+    postgresAsyncHandler(postgresProductController.getProductById)
+  );
 
-// // get :id API
-// app.get(
-//   '/products/:id',
-//   mongodbAsyncHandler(mongodbProductController.getProductById)
-// );
-app.get(
-  '/products/:id',
-  postgresAsyncHandler(postgresProductController.getProductById)
-);
+  // post API
+  // app.post(
+  //   '/products/',
+  //   mongodbAsyncHandler(mongodbProductController.postProduct)
+  // );
+  app.post(
+    '/products/',
+    postgresAsyncHandler(postgresProductController.postProduct)
+  );
 
-// // post API
-// app.post(
-//   '/products/',
-//   mongodbAsyncHandler(mongodbProductController.postProduct)
-// );
-app.post(
-  '/products/',
-  postgresAsyncHandler(postgresProductController.postProduct)
-);
+  // patch API
+  // app.patch(
+  //   '/products/:id',
+  //   mongodbAsyncHandler(mongodbProductController.patchProductById)
+  // );
+  app.patch(
+    '/products/:id',
+    postgresAsyncHandler(postgresProductController.patchProductById)
+  );
 
-// // patch API
-// app.patch(
-//   '/products/:id',
-//   mongodbAsyncHandler(mongodbProductController.patchProductById)
-// );
-app.patch(
-  '/products/:id',
-  postgresAsyncHandler(postgresProductController.patchProductById)
-);
-
-// // delete API
-// app.delete(
-//   '/products/:id',
-//   mongodbAsyncHandler(mongodbProductController.deleteProductById)
-// );
-app.delete(
-  '/products/:id',
-  postgresAsyncHandler(postgresProductController.deleteProductById)
-);
+  // delete API
+  // app.delete(
+  //   '/products/:id',
+  //   mongodbAsyncHandler(mongodbProductController.deleteProductById)
+  // );
+  app.delete(
+    '/products/:id',
+    postgresAsyncHandler(postgresProductController.deleteProductById)
+  );
+}
 
 /***************************    ARTICLE  **************************************************/
+{
+  // get API
+  app.get(
+    '/articles',
+    postgresAsyncHandler(postgresArticleController.getArticles)
+  );
 
-app.get(
-  '/articles',
-  postgresAsyncHandler(postgresArticleController.getArticles)
-);
+  // get :id API
+  app.get(
+    '/articles/:id',
+    postgresAsyncHandler(postgresArticleController.getArticleById)
+  );
+
+  // post API
+  app.post(
+    '/articles/',
+    postgresAsyncHandler(postgresArticleController.postArticle)
+  );
+
+  // patch API
+  app.patch(
+    '/articles/:id',
+    postgresAsyncHandler(postgresArticleController.patchArticleById)
+  );
+
+  // delete API
+  app.delete(
+    '/articles/:id',
+    postgresAsyncHandler(postgresArticleController.deleteArticleById)
+  );
+}
