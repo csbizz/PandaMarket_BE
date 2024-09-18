@@ -59,14 +59,13 @@ export class CommentController {
     assert(req.body, CreateComment);
 
     const articleId = req.params.id;
-    const tmp = {
-      ...req.body,
-      articleId,
-    };
 
-    const newComment = await this.service.postComment(tmp);
-
-    res.status(201).json(newComment);
+    res.status(201).json(
+      await this.service.postComment({
+        ...req.body,
+        articleId,
+      })
+    );
   };
 
   postCommentOfProduct = async (req, res) => {
@@ -74,14 +73,13 @@ export class CommentController {
     assert(req.body, CreateComment);
 
     const productId = req.params.id;
-    const tmp = {
-      ...req.body,
-      productId,
-    };
 
-    const newComment = await this.service.postComment(tmp);
-
-    res.status(201).json(newComment);
+    res.status(201).json(
+      await this.service.postComment({
+        ...req.body,
+        productId,
+      })
+    );
   };
 
   patchCommentById = async (req, res) => {

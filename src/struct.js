@@ -27,7 +27,7 @@ const CreateComment = s.object({
 
 const PatchProduct = s.partial(CreateProduct);
 const PatchArticle = s.partial(CreateArticle);
-const PatchComment = s.partial(CreateComment);
+const PatchComment = s.object({ content: s.string() });
 
 export {
   MongodbId,

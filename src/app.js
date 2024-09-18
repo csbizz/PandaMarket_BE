@@ -137,13 +137,13 @@ app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
 {
   // patch API
   app.patch(
-    '/articles/:id',
+    '/comments/:id',
     postgresAsyncHandler(postgresCommentController.patchCommentById)
   );
 
   // delete API
   app.delete(
-    '/articles/:id',
+    '/comments/:id',
     postgresAsyncHandler(postgresCommentController.deleteCommentById)
   );
 }

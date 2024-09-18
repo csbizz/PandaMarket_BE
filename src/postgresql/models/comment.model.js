@@ -36,6 +36,14 @@ export class CommentModel {
     return { nextCursor, list: comments };
   };
 
+  findById = async (id) => {
+    return this.model.findUnique({
+      where: {
+        id,
+      },
+    });
+  };
+
   create = async (data) => {
     return await this.model.create({
       data,
