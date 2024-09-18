@@ -6,7 +6,9 @@ export class CommentModel {
   }
 
   findMany = async () => {
-    return await this.model.findMany();
+    return await this.model.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
   };
 
   findManyAndCursor = async ({ id, limit, cursor, type }) => {
@@ -24,21 +26,14 @@ export class CommentModel {
     const pageOption = cursor ? { skip: 1, cursor: { id: cursor } } : {};
 
     const comments = await this.model.findMany({
-      ...pageOption,
-      take: limit,
       where: typeOption,
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      ...pageOption,
     });
     const nextCursor = comments.at(-1).id;
 
     return { nextCursor, list: comments };
-  };
-
-  findById = async (id) => {
-    return this.model.findUnique({
-      where: {
-        id,
-      },
-    });
   };
 
   create = async (data) => {

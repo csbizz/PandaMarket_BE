@@ -11,10 +11,6 @@ export class CommentService {
     return await this.model.findManyAndCursor({ id, limit, cursor, type });
   };
 
-  getCommentById = async (id) => {
-    return await this.model.findById(id);
-  };
-
   postComment = async (body) => {
     return await this.model.create(body);
   };

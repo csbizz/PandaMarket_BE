@@ -25,7 +25,7 @@ export class CommentController {
 
     res.status(200).json(
       await this.service.getCommentsAndCursor({
-        articleId,
+        id: articleId,
         limit,
         cursor,
         type: 'article',
@@ -46,7 +46,7 @@ export class CommentController {
 
     res.status(200).json(
       await this.service.getCommentsAndCursor({
-        productId,
+        id: productId,
         limit,
         cursor,
         type: 'product',
@@ -54,9 +54,32 @@ export class CommentController {
     );
   };
 
-  postComment = async (req, res) => {
+  postCommentOfArticle = async (req, res) => {
+    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     assert(req.body, CreateComment);
-    const newComment = await this.service.postComment(req.body);
+
+    const articleId = req.params.id;
+    const tmp = {
+      ...req.body,
+      articleId,
+    };
+
+    const newComment = await this.service.postComment(tmp);
+
+    res.status(201).json(newComment);
+  };
+
+  postCommentOfProduct = async (req, res) => {
+    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
+    assert(req.body, CreateComment);
+
+    const productId = req.params.id;
+    const tmp = {
+      ...req.body,
+      productId,
+    };
+
+    const newComment = await this.service.postComment(tmp);
 
     res.status(201).json(newComment);
   };

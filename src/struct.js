@@ -23,7 +23,6 @@ const CreateArticle = s.object({
 const CreateComment = s.object({
   content: s.string(),
   ownerId: Uuid,
-  articleId: Uuid,
 });
 
 const PatchProduct = s.partial(CreateProduct);

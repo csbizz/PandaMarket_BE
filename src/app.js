@@ -61,6 +61,12 @@ app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
     postgresAsyncHandler(postgresProductController.postProduct)
   );
 
+  // post :id/comments API
+  app.post(
+    '/products/:id/comments',
+    postgresAsyncHandler(postgresCommentController.postCommentOfProduct)
+  );
+
   // patch API
   // app.patch(
   //   '/products/:id',
@@ -106,6 +112,12 @@ app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
   app.post(
     '/articles/',
     postgresAsyncHandler(postgresArticleController.postArticle)
+  );
+
+  // post :id/comments API
+  app.post(
+    '/articles/:id/comments',
+    postgresAsyncHandler(postgresCommentController.postCommentOfArticle)
   );
 
   // patch API
