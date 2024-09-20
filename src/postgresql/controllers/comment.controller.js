@@ -1,7 +1,7 @@
 import { assert } from 'superstruct';
-import { TypeError } from '../utils/error.js';
 import { CreateComment, Cursor, PatchComment, Uuid } from '../../struct.js';
 import { MESSAGES } from '../../constants.js';
+import { TypeError } from '../../error.js';
 
 export class CommentController {
   constructor(commentService) {
@@ -9,7 +9,7 @@ export class CommentController {
   }
 
   getCommentsDev = async (req, res) => {
-    res.status(200).json(await this.service.getComments());
+    res.json(await this.service.getComments());
   };
 
   getCommentsOfArticle = async (req, res) => {
@@ -57,7 +57,6 @@ export class CommentController {
   postCommentOfArticle = async (req, res) => {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     assert(req.body, CreateComment);
-
     const articleId = req.params.id;
 
     res.status(201).json(
@@ -71,7 +70,6 @@ export class CommentController {
   postCommentOfProduct = async (req, res) => {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     assert(req.body, CreateComment);
-
     const productId = req.params.id;
 
     res.status(201).json(
@@ -87,19 +85,21 @@ export class CommentController {
     assert(req.body, PatchComment);
     const id = req.params.id;
 
-    const product = await this.service.patchCommentById(id, req.body);
+    const comment = await this.service.patchCommentById(id, req.body);
 
-    if (product) res.json(product);
-    else res.status(404).json({ message: MESSAGES.NOID });
+    if (!comment) res.status(404).json({ message: MESSAGES.NOID });
+
+    res.json(comment);
   };
 
   deleteCommentById = async (req, res) => {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     const id = req.params.id;
 
-    const product = await this.service.deleteCommentById(id);
+    const comment = await this.service.deleteCommentById(id);
 
-    if (product) res.status(200).json(product);
-    else res.status(404).json({ message: MESSAGES.NOID });
+    if (!comment) res.status(404).json({ message: MESSAGES.NOID });
+
+    res.json(comment);
   };
 }

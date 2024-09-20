@@ -1,7 +1,7 @@
 import { assert } from 'superstruct';
-import { TypeError } from '../utils/error.js';
 import { CreateArticle, PatchArticle, Uuid } from '../../struct.js';
 import { MESSAGES } from '../../constants.js';
+import { TypeError } from '../../error.js';
 
 export class ArticleController {
   constructor(articleService) {
@@ -34,15 +34,15 @@ export class ArticleController {
 
     const article = await this.service.getArticleById(id);
 
-    if (article) res.json(article);
-    else res.status(404).json({ message: MESSAGES.NOID });
+    if (!article) res.status(404).json({ message: MESSAGES.NOID });
+
+    res.json(article);
   };
 
   postArticle = async (req, res) => {
     assert(req.body, CreateArticle);
-    const newArticle = await this.service.postArticle(req.body);
 
-    res.status(201).json(newArticle);
+    res.status(201).json(await this.service.postArticle(req.body));
   };
 
   patchArticleById = async (req, res) => {
@@ -50,19 +50,21 @@ export class ArticleController {
     assert(req.body, PatchArticle);
     const id = req.params.id;
 
-    const product = await this.service.patchArticleById(id, req.body);
+    const article = await this.service.patchArticleById(id, req.body);
 
-    if (product) res.json(product);
-    else res.status(404).json({ message: MESSAGES.NOID });
+    if (!article) res.status(404).json({ message: MESSAGES.NOID });
+
+    res.json(article);
   };
 
   deleteArticleById = async (req, res) => {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     const id = req.params.id;
 
-    const product = await this.service.deleteArticleById(id);
+    const article = await this.service.deleteArticleById(id);
 
-    if (product) res.status(200).json(product);
-    else res.status(404).json({ message: MESSAGES.NOID });
+    if (!article) res.status(404).json({ message: MESSAGES.NOID });
+
+    res.json(article);
   };
 }

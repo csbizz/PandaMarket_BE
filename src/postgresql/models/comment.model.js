@@ -1,4 +1,4 @@
-import { TypeError } from '../utils/error.js';
+import { TypeError } from '../../error.js';
 
 export class CommentModel {
   constructor(client) {
