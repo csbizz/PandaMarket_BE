@@ -17,24 +17,33 @@ export class ProductService {
   };
 
   getProductById = async (id) => {
-    return await this.db.findById(id);
+    const product = await this.db.findById(id);
+
+    return product;
   };
 
   postProduct = async (body) => {
-    return await this.db.create(body);
+    const product = await this.db.create(body);
+
+    return product;
   };
 
   patchProductById = async (id, body) => {
-    let product = await this.db.findById(id);
+    const product = await this.db.findById(id);
     if (!product) return;
 
     Object.keys(body).forEach((k) => {
       product[k] = body[k];
     });
-    return await this.db.update(id, product);
+
+    const updated = await this.db.update(id, product);
+
+    return updated;
   };
 
   deleteProductById = async (id) => {
-    return await this.db.deleteById(id);
+    const product = await this.db.deleteById(id);
+
+    return product;
   };
 }

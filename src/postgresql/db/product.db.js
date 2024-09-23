@@ -8,7 +8,9 @@ export class ProductDB {
       ? { where: { productSearchQuery: { contains: keyword } } }
       : {};
 
-    return await this.db.count(searchOption);
+    const count = await this.db.count(searchOption);
+
+    return count;
   };
 
   findMany = async ({ orderBy, page, pageSize, keyword }) => {
@@ -19,38 +21,37 @@ export class ProductDB {
       ? { where: { searchQuery: { contains: keyword } } }
       : {};
 
-    return await this.db.findMany({
+    const products = await this.db.findMany({
       ...searchOption,
       ...sortOption,
       take: pageSize,
       skip: page,
     });
+
+    return products;
   };
 
   findById = async (id) => {
-    return this.db.findUnique({
-      where: {
-        id,
-      },
-    });
+    const product = this.db.findUnique({ where: { id } });
+
+    return product;
   };
 
   create = async (data) => {
-    return await this.db.create({
-      data,
-    });
+    const product = await this.db.create({ data });
+
+    return product;
   };
 
   update = async (id, data) => {
-    return await this.db.update({
-      where: { id },
-      data,
-    });
+    const product = await this.db.update({ where: { id }, data });
+
+    return product;
   };
 
   deleteById = async (id) => {
-    return await this.db.delete({
-      where: { id },
-    });
+    const product = await this.db.delete({ where: { id } });
+
+    return product;
   };
 }

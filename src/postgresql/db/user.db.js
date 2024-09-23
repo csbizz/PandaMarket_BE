@@ -8,7 +8,9 @@ export class UserDB {
       ? { where: { productSearchQuery: { contains: keyword } } }
       : {};
 
-    return await this.db.count(searchOption);
+    const count = await this.db.count(searchOption);
+
+    return count;
   };
 
   findMany = async ({ orderBy, page, pageSize, keyword }) => {
@@ -26,11 +28,13 @@ export class UserDB {
       ? { where: { searchQuery: { contains: keyword } } }
       : {};
 
-    return await this.db.findMany({
+    const users = await this.db.findMany({
       ...searchOption,
       ...sortOption,
       take: pageSize,
       skip: page,
     });
+
+    return users;
   };
 }

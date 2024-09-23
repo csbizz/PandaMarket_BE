@@ -6,9 +6,9 @@ export class CommentDB {
   }
 
   findMany = async () => {
-    return await this.db.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
+    const comments = await this.db.findMany({ orderBy: { createdAt: 'desc' } });
+
+    return comments;
   };
 
   findManyAndCursor = async ({ id, limit, cursor, type }) => {
@@ -37,29 +37,26 @@ export class CommentDB {
   };
 
   findById = async (id) => {
-    return this.db.findUnique({
-      where: {
-        id,
-      },
-    });
+    const comment = this.db.findUnique({ where: { id } });
+
+    return comment;
   };
 
   create = async (data) => {
-    return await this.db.create({
-      data,
-    });
+    const comment = await this.db.create({ data });
+
+    return comment;
   };
 
   update = async (id, data) => {
-    return await this.db.update({
-      where: { id },
-      data,
-    });
+    const comment = await this.db.update({ where: { id }, data });
+
+    return comment;
   };
 
   deleteById = async (id) => {
-    return await this.db.delete({
-      where: { id },
-    });
+    const comment = await this.db.delete({ where: { id } });
+
+    return comment;
   };
 }

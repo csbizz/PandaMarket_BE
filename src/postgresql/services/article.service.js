@@ -17,24 +17,33 @@ export class ArticleService {
   };
 
   getArticleById = async (id) => {
-    return await this.db.findById(id);
+    const article = await this.db.findById(id);
+
+    return article;
   };
 
   postArticle = async (body) => {
-    return await this.db.create(body);
+    const article = await this.db.create(body);
+
+    return article;
   };
 
   patchArticleById = async (id, body) => {
-    let product = await this.db.findById(id);
-    if (!product) return;
+    const article = await this.db.findById(id);
+    if (!article) return;
 
     Object.keys(body).forEach((k) => {
-      product[k] = body[k];
+      article[k] = body[k];
     });
-    return await this.db.update(id, product);
+
+    const updated = await this.db.update(id, article);
+
+    return updated;
   };
 
   deleteArticleById = async (id) => {
-    return await this.db.deleteById(id);
+    const article = await this.db.deleteById(id);
+
+    return article;
   };
 }
