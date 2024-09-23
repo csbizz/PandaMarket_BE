@@ -1,6 +1,6 @@
-export class ProductModel {
+export class ProductRepository {
   constructor(client) {
-    this.model = client.product;
+    this.repo = client.product;
   }
 
   count = async (keyword) => {
@@ -8,7 +8,7 @@ export class ProductModel {
       ? { where: { productSearchQuery: { contains: keyword } } }
       : {};
 
-    return await this.model.count(searchOption);
+    return await this.repo.count(searchOption);
   };
 
   findMany = async ({ orderBy, page, pageSize, keyword }) => {
@@ -19,7 +19,7 @@ export class ProductModel {
       ? { where: { searchQuery: { contains: keyword } } }
       : {};
 
-    return await this.model.findMany({
+    return await this.repo.findMany({
       ...searchOption,
       ...sortOption,
       take: pageSize,
@@ -28,7 +28,7 @@ export class ProductModel {
   };
 
   findById = async (id) => {
-    return this.model.findUnique({
+    return this.repo.findUnique({
       where: {
         id,
       },
@@ -36,20 +36,20 @@ export class ProductModel {
   };
 
   create = async (data) => {
-    return await this.model.create({
+    return await this.repo.create({
       data,
     });
   };
 
   update = async (id, data) => {
-    return await this.model.update({
+    return await this.repo.update({
       where: { id },
       data,
     });
   };
 
   deleteById = async (id) => {
-    return await this.model.delete({
+    return await this.repo.delete({
       where: { id },
     });
   };

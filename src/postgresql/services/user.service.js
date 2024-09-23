@@ -1,12 +1,12 @@
 export class UserService {
-  constructor(userModel) {
-    this.model = userModel;
+  constructor(userRepository) {
+    this.repo = userRepository;
   }
 
   getUsersAndCount = async ({ orderBy, page, pageSize, keyword }) => {
-    const totalCount = await this.model.count(keyword);
+    const totalCount = await this.repo.count(keyword);
 
-    const list = await this.model.findMany({
+    const list = await this.repo.findMany({
       orderBy,
       page,
       pageSize,

@@ -1,12 +1,12 @@
 export class ArticleService {
-  constructor(articleModel) {
-    this.model = articleModel;
+  constructor(articleRepository) {
+    this.repo = articleRepository;
   }
 
   getArticlesAndCount = async ({ orderBy, page, pageSize, keyword }) => {
-    const totalCount = await this.model.count(keyword);
+    const totalCount = await this.repo.count(keyword);
 
-    const list = await this.model.findMany({
+    const list = await this.repo.findMany({
       orderBy,
       page,
       pageSize,
@@ -17,24 +17,24 @@ export class ArticleService {
   };
 
   getArticleById = async (id) => {
-    return await this.model.findById(id);
+    return await this.repo.findById(id);
   };
 
   postArticle = async (body) => {
-    return await this.model.create(body);
+    return await this.repo.create(body);
   };
 
   patchArticleById = async (id, body) => {
-    let product = await this.model.findById(id);
+    let product = await this.repo.findById(id);
     if (!product) return;
 
     Object.keys(body).forEach((k) => {
       product[k] = body[k];
     });
-    return await this.model.update(id, product);
+    return await this.repo.update(id, product);
   };
 
   deleteArticleById = async (id) => {
-    return await this.model.deleteById(id);
+    return await this.repo.deleteById(id);
   };
 }
