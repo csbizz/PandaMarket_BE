@@ -39,7 +39,7 @@ export class ArticleDB {
   };
 
   findById = async (id) => {
-    const article = this.db.findUnique({ where: { id } });
+    const article = await this.db.findUnique({ where: { id } });
 
     return article;
   };

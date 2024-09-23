@@ -37,7 +37,7 @@ export class CommentDB {
   };
 
   findById = async (id) => {
-    const comment = this.db.findUnique({ where: { id } });
+    const comment = await this.db.findUnique({ where: { id } });
 
     return comment;
   };

@@ -32,7 +32,7 @@ export class ProductDB {
   };
 
   findById = async (id) => {
-    const product = this.db.findUnique({ where: { id } });
+    const product = await this.db.findUnique({ where: { id } });
 
     return product;
   };
