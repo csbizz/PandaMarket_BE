@@ -9,7 +9,7 @@ export class CommentService {
     return comments;
   };
 
-  getCommentsAndCursor = async ({ id, limit, cursor, type }) => {
+  getPaginatedComments = async ({ id, limit, cursor, type }) => {
     const resBody = await this.db.findManyAndCursor({
       id,
       limit,
@@ -26,7 +26,7 @@ export class CommentService {
     return comment;
   };
 
-  patchCommentById = async (id, body) => {
+  patchComment = async (id, body) => {
     const comment = await this.db.findById(id);
     if (!comment) return;
 
@@ -39,7 +39,7 @@ export class CommentService {
     return updated;
   };
 
-  deleteCommentById = async (id) => {
+  deleteComment = async (id) => {
     const comment = await this.db.deleteById(id);
 
     return comment;

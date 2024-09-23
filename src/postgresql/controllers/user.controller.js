@@ -15,7 +15,7 @@ export class UserController {
       throw new TypeError('page and pageSize should be an integer');
     }
 
-    const resBody = await this.service.getUsersAndCount({
+    const resBody = await this.service.getPaginatedUsers({
       orderBy,
       page,
       pageSize,

@@ -3,7 +3,7 @@ export class UserService {
     this.db = userDB;
   }
 
-  getUsersAndCount = async ({ orderBy, page, pageSize, keyword }) => {
+  getPaginatedUsers = async ({ orderBy, page, pageSize, keyword }) => {
     const totalCount = await this.db.count(keyword);
 
     const list = await this.db.findMany({

@@ -18,7 +18,7 @@ export class ArticleController {
       throw new TypeError('page and pageSize should be an integer');
     }
 
-    const resBody = await this.service.getArticlesAndCount({
+    const resBody = await this.service.getPaginatedArticles({
       orderBy,
       page,
       pageSize,
@@ -32,7 +32,7 @@ export class ArticleController {
     assert(req.params.id, Uuid);
     const id = req.params.id;
 
-    const article = await this.service.getArticleById(id);
+    const article = await this.service.getArticle(id);
 
     if (!article) res.status(404).json({ message: MESSAGES.NOID });
 
@@ -42,26 +42,28 @@ export class ArticleController {
   postArticle = async (req, res) => {
     assert(req.body, CreateArticle);
 
-    res.status(201).json(await this.service.postArticle(req.body));
+    const article = await this.service.postArticle(req.body);
+
+    res.status(201).json(article);
   };
 
-  patchArticleById = async (req, res) => {
+  patchArticle = async (req, res) => {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     assert(req.body, PatchArticle);
     const id = req.params.id;
 
-    const article = await this.service.patchArticleById(id, req.body);
+    const article = await this.service.patchArticle(id, req.body);
 
     if (!article) res.status(404).json({ message: MESSAGES.NOID });
 
     res.json(article);
   };
 
-  deleteArticleById = async (req, res) => {
+  deleteArticle = async (req, res) => {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     const id = req.params.id;
 
-    const article = await this.service.deleteArticleById(id);
+    const article = await this.service.deleteArticle(id);
 
     if (!article) res.status(404).json({ message: MESSAGES.NOID });
 

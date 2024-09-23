@@ -23,7 +23,7 @@ export class CommentController {
       throw new TypeError('limit should be an integer');
     }
 
-    const resBody = await this.service.getCommentsAndCursor({
+    const resBody = await this.service.getPaginatedComments({
       id: articleId,
       limit,
       cursor,
@@ -44,7 +44,7 @@ export class CommentController {
       throw new TypeError('limit should be an integer');
     }
 
-    const resBody = await this.service.getCommentsAndCursor({
+    const resBody = await this.service.getPaginatedComments({
       id: productId,
       limit,
       cursor,
@@ -84,7 +84,7 @@ export class CommentController {
     assert(req.body, PatchComment);
     const id = req.params.id;
 
-    const comment = await this.service.patchCommentById(id, req.body);
+    const comment = await this.service.patchComment(id, req.body);
 
     if (!comment) res.status(404).json({ message: MESSAGES.NOID });
 
@@ -95,7 +95,7 @@ export class CommentController {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     const id = req.params.id;
 
-    const comment = await this.service.deleteCommentById(id);
+    const comment = await this.service.deleteComment(id);
 
     if (!comment) res.status(404).json({ message: MESSAGES.NOID });
 

@@ -25,7 +25,7 @@ export class ProductDB {
       ...searchOption,
       ...sortOption,
       take: pageSize,
-      skip: page,
+      skip: page * pageSize,
     });
 
     return products;

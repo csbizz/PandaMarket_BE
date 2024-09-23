@@ -18,7 +18,7 @@ export class ProductController {
       throw new TypeError('page and pageSize should be an integer');
     }
 
-    const resBody = await this.service.getProductsAndCount({
+    const resBody = await this.service.getPaginatedProducts({
       orderBy,
       page,
       pageSize,
@@ -32,7 +32,7 @@ export class ProductController {
     assert(req.params.id, Uuid);
     const id = req.params.id;
 
-    const product = await this.service.getProductById(id);
+    const product = await this.service.getProduct(id);
 
     if (!product) res.status(404).json({ message: MESSAGES.NOID });
 
@@ -52,7 +52,7 @@ export class ProductController {
     assert(req.body, PatchProduct);
     const id = req.params.id;
 
-    const product = await this.service.patchProductById(id, req.body);
+    const product = await this.service.patchProduct(id, req.body);
 
     if (!product) res.status(404).json({ message: MESSAGES.NOID });
 
@@ -63,7 +63,7 @@ export class ProductController {
     assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
     const id = req.params.id;
 
-    const product = await this.service.deleteProductById(id);
+    const product = await this.service.deleteProduct(id);
 
     if (!product) res.status(404).json({ message: MESSAGES.NOID });
 

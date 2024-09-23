@@ -3,7 +3,7 @@ export class ArticleService {
     this.db = articleDB;
   }
 
-  getArticlesAndCount = async ({ orderBy, page, pageSize, keyword }) => {
+  getPaginatedArticles = async ({ orderBy, page, pageSize, keyword }) => {
     const totalCount = await this.db.count(keyword);
 
     const list = await this.db.findMany({
@@ -16,7 +16,7 @@ export class ArticleService {
     return { totalCount, list };
   };
 
-  getArticleById = async (id) => {
+  getArticle = async (id) => {
     const article = await this.db.findById(id);
 
     return article;
@@ -28,7 +28,7 @@ export class ArticleService {
     return article;
   };
 
-  patchArticleById = async (id, body) => {
+  patchArticle = async (id, body) => {
     const article = await this.db.findById(id);
     if (!article) return;
 
@@ -41,7 +41,7 @@ export class ArticleService {
     return updated;
   };
 
-  deleteArticleById = async (id) => {
+  deleteArticle = async (id) => {
     const article = await this.db.deleteById(id);
 
     return article;

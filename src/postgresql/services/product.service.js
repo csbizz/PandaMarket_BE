@@ -3,7 +3,7 @@ export class ProductService {
     this.db = productDB;
   }
 
-  getProductsAndCount = async ({ orderBy, page, pageSize, keyword }) => {
+  getPaginatedProducts = async ({ orderBy, page, pageSize, keyword }) => {
     const totalCount = await this.db.count(keyword);
 
     const list = await this.db.findMany({
@@ -16,7 +16,7 @@ export class ProductService {
     return { totalCount, list };
   };
 
-  getProductById = async (id) => {
+  getProduct = async (id) => {
     const product = await this.db.findById(id);
 
     return product;
@@ -28,7 +28,7 @@ export class ProductService {
     return product;
   };
 
-  patchProductById = async (id, body) => {
+  patchProduct = async (id, body) => {
     const product = await this.db.findById(id);
     if (!product) return;
 
@@ -41,7 +41,7 @@ export class ProductService {
     return updated;
   };
 
-  deleteProductById = async (id) => {
+  deleteProduct = async (id) => {
     const product = await this.db.deleteById(id);
 
     return product;
