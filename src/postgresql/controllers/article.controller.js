@@ -18,14 +18,14 @@ export class ArticleController {
       throw new TypeError('page and pageSize should be an integer');
     }
 
-    res.status(200).json(
-      await this.service.getArticlesAndCount({
-        orderBy,
-        page,
-        pageSize,
-        keyword,
-      })
-    );
+    const resBody = await this.service.getArticlesAndCount({
+      orderBy,
+      page,
+      pageSize,
+      keyword,
+    });
+
+    res.status(200).json(resBody);
   };
 
   getArticleById = async (req, res) => {

@@ -23,14 +23,14 @@ export class CommentController {
       throw new TypeError('limit should be an integer');
     }
 
-    res.status(200).json(
-      await this.service.getCommentsAndCursor({
-        id: articleId,
-        limit,
-        cursor,
-        type: 'article',
-      })
-    );
+    const resBody = await this.service.getCommentsAndCursor({
+      id: articleId,
+      limit,
+      cursor,
+      type: 'article',
+    });
+
+    res.status(200).json(resBody);
   };
 
   getCommentsOfProduct = async (req, res) => {
@@ -44,14 +44,14 @@ export class CommentController {
       throw new TypeError('limit should be an integer');
     }
 
-    res.status(200).json(
-      await this.service.getCommentsAndCursor({
-        id: productId,
-        limit,
-        cursor,
-        type: 'product',
-      })
-    );
+    const resBody = await this.service.getCommentsAndCursor({
+      id: productId,
+      limit,
+      cursor,
+      type: 'product',
+    });
+
+    res.status(200).json(resBody);
   };
 
   postCommentOfArticle = async (req, res) => {
@@ -59,12 +59,11 @@ export class CommentController {
     assert(req.body, CreateComment);
     const articleId = req.params.id;
 
-    res.status(201).json(
-      await this.service.postComment({
-        ...req.body,
-        articleId,
-      })
-    );
+    const comment = await this.service.postComment({
+      ...req.body,
+      articleId,
+    });
+    res.status(201).json(comment);
   };
 
   postCommentOfProduct = async (req, res) => {
@@ -72,12 +71,12 @@ export class CommentController {
     assert(req.body, CreateComment);
     const productId = req.params.id;
 
-    res.status(201).json(
-      await this.service.postComment({
-        ...req.body,
-        productId,
-      })
-    );
+    const comment = await this.service.postComment({
+      ...req.body,
+      productId,
+    });
+
+    res.status(201).json(comment);
   };
 
   patchCommentById = async (req, res) => {

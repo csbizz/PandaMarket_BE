@@ -1,6 +1,6 @@
-export class ProductRepository {
+export class ProductDB {
   constructor(client) {
-    this.repo = client.product;
+    this.db = client.product;
   }
 
   count = async (keyword) => {
@@ -8,7 +8,7 @@ export class ProductRepository {
       ? { where: { productSearchQuery: { contains: keyword } } }
       : {};
 
-    return await this.repo.count(searchOption);
+    return await this.db.count(searchOption);
   };
 
   findMany = async ({ orderBy, page, pageSize, keyword }) => {
@@ -19,7 +19,7 @@ export class ProductRepository {
       ? { where: { searchQuery: { contains: keyword } } }
       : {};
 
-    return await this.repo.findMany({
+    return await this.db.findMany({
       ...searchOption,
       ...sortOption,
       take: pageSize,
@@ -28,7 +28,7 @@ export class ProductRepository {
   };
 
   findById = async (id) => {
-    return this.repo.findUnique({
+    return this.db.findUnique({
       where: {
         id,
       },
@@ -36,20 +36,20 @@ export class ProductRepository {
   };
 
   create = async (data) => {
-    return await this.repo.create({
+    return await this.db.create({
       data,
     });
   };
 
   update = async (id, data) => {
-    return await this.repo.update({
+    return await this.db.update({
       where: { id },
       data,
     });
   };
 
   deleteById = async (id) => {
-    return await this.repo.delete({
+    return await this.db.delete({
       where: { id },
     });
   };

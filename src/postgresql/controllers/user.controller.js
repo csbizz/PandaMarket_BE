@@ -15,13 +15,13 @@ export class UserController {
       throw new TypeError('page and pageSize should be an integer');
     }
 
-    res.json(
-      await this.service.getUsersAndCount({
-        orderBy,
-        page,
-        pageSize,
-        keyword,
-      })
-    );
+    const resBody = await this.service.getUsersAndCount({
+      orderBy,
+      page,
+      pageSize,
+      keyword,
+    });
+
+    res.json(resBody);
   };
 }

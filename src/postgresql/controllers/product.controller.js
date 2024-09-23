@@ -18,14 +18,14 @@ export class ProductController {
       throw new TypeError('page and pageSize should be an integer');
     }
 
-    res.json(
-      await this.service.getProductsAndCount({
-        orderBy,
-        page,
-        pageSize,
-        keyword,
-      })
-    );
+    const resBody = await this.service.getProductsAndCount({
+      orderBy,
+      page,
+      pageSize,
+      keyword,
+    });
+
+    res.json(resBody);
   };
 
   getProductById = async (req, res) => {
@@ -42,7 +42,9 @@ export class ProductController {
   postProduct = async (req, res) => {
     assert(req.body, CreateProduct);
 
-    res.status(201).json(await this.service.postProduct(req.body));
+    const product = await this.service.postProduct(req.body);
+
+    res.status(201).json(product);
   };
 
   patchProductById = async (req, res) => {

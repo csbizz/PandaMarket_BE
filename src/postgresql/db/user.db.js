@@ -1,6 +1,6 @@
-export class UserRepository {
+export class UserDB {
   constructor(client) {
-    this.repo = client.user;
+    this.db = client.user;
   }
 
   count = async (keyword) => {
@@ -8,7 +8,7 @@ export class UserRepository {
       ? { where: { productSearchQuery: { contains: keyword } } }
       : {};
 
-    return await this.repo.count(searchOption);
+    return await this.db.count(searchOption);
   };
 
   findMany = async ({ orderBy, page, pageSize, keyword }) => {
@@ -26,7 +26,7 @@ export class UserRepository {
       ? { where: { searchQuery: { contains: keyword } } }
       : {};
 
-    return await this.repo.findMany({
+    return await this.db.findMany({
       ...searchOption,
       ...sortOption,
       take: pageSize,

@@ -1,12 +1,12 @@
 import { TypeError } from '../../error.js';
 
-export class CommentRepository {
+export class CommentDB {
   constructor(client) {
-    this.repo = client.comment;
+    this.db = client.comment;
   }
 
   findMany = async () => {
-    return await this.repo.findMany({
+    return await this.db.findMany({
       orderBy: { createdAt: 'desc' },
     });
   };
@@ -25,7 +25,7 @@ export class CommentRepository {
     }
     const pageOption = cursor ? { skip: 1, cursor: { id: cursor } } : {};
 
-    const comments = await this.repo.findMany({
+    const comments = await this.db.findMany({
       where: typeOption,
       orderBy: { createdAt: 'desc' },
       take: limit,
@@ -37,7 +37,7 @@ export class CommentRepository {
   };
 
   findById = async (id) => {
-    return this.repo.findUnique({
+    return this.db.findUnique({
       where: {
         id,
       },
@@ -45,20 +45,20 @@ export class CommentRepository {
   };
 
   create = async (data) => {
-    return await this.repo.create({
+    return await this.db.create({
       data,
     });
   };
 
   update = async (id, data) => {
-    return await this.repo.update({
+    return await this.db.update({
       where: { id },
       data,
     });
   };
 
   deleteById = async (id) => {
-    return await this.repo.delete({
+    return await this.db.delete({
       where: { id },
     });
   };
