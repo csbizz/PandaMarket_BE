@@ -49,10 +49,7 @@ app.use(validation);
   app.get('/products', postgresProductController.getProducts);
 
   // get :id API
-  // app.get(
-  //   '/products/:id',
-  //   (mongodbProductController.getProductById)
-  // );
+  // app.get('/products/:id', mongodbProductController.getProductById);
   app.get('/products/:id', postgresProductController.getProductById);
 
   // get :id/comments API
