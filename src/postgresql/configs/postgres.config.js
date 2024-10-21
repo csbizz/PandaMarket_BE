@@ -8,4 +8,5 @@ export const postgresConnectionConfig = {
   username: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
+  render: process.env.DATABASE_URL_render,
 };

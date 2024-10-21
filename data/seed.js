@@ -1,7 +1,7 @@
 import { products, users, articles, comments } from './mock.js';
 import { mongodbConnection } from '../src/mongodb/db/mongodb.connection.js';
 import { ProductModel } from '../src/mongodb/models/product.model.js';
-import { prismaClient as prisma } from '../src/postgresql/db/postgres.connection.js';
+import { prismaClient as prisma } from '../src/postgresql/connection/postgres.connection.js';
 
 function getRandomInteger(min, max) {
   const minCeiled = Math.ceil(min);
@@ -17,12 +17,8 @@ const Product = new ProductModel(mongodbConnection);
 async function main() {
   // postgres seeding part
   // delete part
-
-  // 익명유저를 제외하고 삭제한다.
   await prisma.$transaction([
-    prisma.user.deleteMany({
-      where: { id: { not: '00000000-0000-0000-0000-000000000000' } },
-    }),
+    prisma.user.deleteMany(),
     prisma.product.deleteMany(),
     prisma.article.deleteMany(),
     prisma.comment.deleteMany(),
