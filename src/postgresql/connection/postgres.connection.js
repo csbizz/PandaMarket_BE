@@ -9,6 +9,7 @@ const connectionString = `postgresql://${username}:${password}@${host}:${port}/$
 const connectionOption = { datasourceUrl: render };
 
 export const prismaClient = new PrismaClient({
+  ...connectionOption,
   log: [
     { level: 'info', emit: 'event' },
     { level: 'warn', emit: 'event' },
