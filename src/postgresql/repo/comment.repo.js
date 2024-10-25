@@ -1,6 +1,6 @@
 import { TypeError } from '../../error.js';
 
-export class CommentDB {
+export class CommentRepo {
   constructor(client) {
     this.db = client.comment;
   }
@@ -31,18 +31,18 @@ export class CommentDB {
       take: limit,
       ...pageOption,
     });
-    const nextCursor = comments.at(-1).id;
+    const nextCursor = comments.length ? { nextCursor: comments.at(-1).id } : {};
 
-    return { nextCursor, list: comments };
+    return { ...nextCursor, list: comments };
   };
 
-  findById = async (id) => {
+  findById = async id => {
     const comment = await this.db.findUnique({ where: { id } });
 
     return comment;
   };
 
-  create = async (data) => {
+  create = async data => {
     const comment = await this.db.create({ data });
 
     return comment;
@@ -54,7 +54,7 @@ export class CommentDB {
     return comment;
   };
 
-  deleteById = async (id) => {
+  deleteById = async id => {
     const comment = await this.db.delete({ where: { id } });
 
     return comment;

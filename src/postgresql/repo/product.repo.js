@@ -1,16 +1,13 @@
-export class ProductDB {
+export class ProductRepo {
   constructor(client) {
     this.db = client.product;
   }
 
-  count = async (keyword) => {
+  count = async keyword => {
     const searchOption = keyword
       ? {
           where: {
-            OR: [
-              { name: { contains: keyword } },
-              { description: { contains: keyword } },
-            ],
+            OR: [{ name: { contains: keyword } }, { description: { contains: keyword } }],
           },
         }
       : {};
@@ -27,10 +24,7 @@ export class ProductDB {
     const searchOption = keyword
       ? {
           where: {
-            OR: [
-              { name: { contains: keyword } },
-              { description: { contains: keyword } },
-            ],
+            OR: [{ name: { contains: keyword } }, { description: { contains: keyword } }],
           },
         }
       : {};
@@ -45,13 +39,13 @@ export class ProductDB {
     return products;
   };
 
-  findById = async (id) => {
+  findById = async id => {
     const product = await this.db.findUnique({ where: { id } });
 
     return product;
   };
 
-  create = async (data) => {
+  create = async data => {
     const product = await this.db.create({ data });
 
     return product;
@@ -63,7 +57,7 @@ export class ProductDB {
     return product;
   };
 
-  deleteById = async (id) => {
+  deleteById = async id => {
     const product = await this.db.delete({ where: { id } });
 
     return product;

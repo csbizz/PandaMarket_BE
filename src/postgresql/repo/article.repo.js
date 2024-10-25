@@ -1,16 +1,13 @@
-export class ArticleDB {
+export class ArticleRepo {
   constructor(client) {
     this.db = client.article;
   }
 
-  count = async (keyword) => {
+  count = async keyword => {
     const searchOption = keyword
       ? {
           where: {
-            OR: [
-              { title: { contains: keyword } },
-              { content: { contains: keyword } },
-            ],
+            OR: [{ title: { contains: keyword } }, { content: { contains: keyword } }],
           },
         }
       : {};
@@ -34,10 +31,7 @@ export class ArticleDB {
     const searchOption = keyword
       ? {
           where: {
-            OR: [
-              { title: { contains: keyword } },
-              { content: { contains: keyword } },
-            ],
+            OR: [{ title: { contains: keyword } }, { content: { contains: keyword } }],
           },
         }
       : {};
@@ -52,13 +46,13 @@ export class ArticleDB {
     return articles;
   };
 
-  findById = async (id) => {
+  findById = async id => {
     const article = await this.db.findUnique({ where: { id } });
 
     return article;
   };
 
-  create = async (data) => {
+  create = async data => {
     const article = await this.db.create({ data });
 
     return article;
@@ -70,7 +64,7 @@ export class ArticleDB {
     return article;
   };
 
-  deleteById = async (id) => {
+  deleteById = async id => {
     const article = await this.db.delete({ where: { id } });
 
     return article;

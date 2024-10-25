@@ -1,12 +1,10 @@
-export class UserDB {
+export class UserRepo {
   constructor(client) {
     this.db = client.user;
   }
 
-  count = async (keyword) => {
-    const searchOption = keyword
-      ? { where: { nickname: { contains: keyword } } }
-      : {};
+  count = async keyword => {
+    const searchOption = keyword ? { where: { nickname: { contains: keyword } } } : {};
 
     const count = await this.db.count(searchOption);
 
@@ -24,9 +22,7 @@ export class UserDB {
         sortOption = { orderBy: { createdAt: 'desc' } };
     }
 
-    const searchOption = keyword
-      ? { where: { nickname: { contains: keyword } } }
-      : {};
+    const searchOption = keyword ? { where: { nickname: { contains: keyword } } } : {};
 
     const users = await this.db.findMany({
       ...searchOption,

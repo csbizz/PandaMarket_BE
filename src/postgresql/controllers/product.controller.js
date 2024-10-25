@@ -1,6 +1,6 @@
 import { assert } from 'superstruct';
 import { CreateProduct, PatchProduct, Uuid } from '../../struct.js';
-import { MESSAGES } from '../../constants.js';
+import c from '../../constants.js';
 import { TypeError } from '../../error.js';
 
 export class ProductController {
@@ -30,7 +30,7 @@ export class ProductController {
 
     const product = await this.service.getProduct(id);
 
-    if (!product) res.status(404).json({ message: MESSAGES.NOID });
+    if (!product) res.status(404).json({ message: c.MESSAGES.NOID });
 
     res.json(product);
   };
@@ -44,24 +44,24 @@ export class ProductController {
   };
 
   patchProduct = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
     assert(req.body, PatchProduct);
     const id = req.params.id;
 
     const product = await this.service.patchProduct(id, req.body);
 
-    if (!product) res.status(404).json({ message: MESSAGES.NOID });
+    if (!product) res.status(404).json({ message: c.MESSAGES.NOID });
 
     res.json(product);
   };
 
   deleteProduct = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
     const id = req.params.id;
 
     const product = await this.service.deleteProduct(id);
 
-    if (!product) res.status(404).json({ message: MESSAGES.NOID });
+    if (!product) res.status(404).json({ message: c.MESSAGES.NOID });
 
     res.json(product);
   };

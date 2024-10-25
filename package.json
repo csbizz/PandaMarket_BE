@@ -1,8 +1,5 @@
 {
   "type": "module",
-  "devDependencies": {
-    "nodemon": "^3.1.4"
-  },
   "dependencies": {
     "@prisma/client": "^5.19.1",
     "cors": "^2.8.5",
@@ -20,6 +17,7 @@
     "seed": "node data/seed.js"
   },
   "devDependencies": {
+    "nodemon": "^3.1.4",
     "@eslint/js": "^9.13.0",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
