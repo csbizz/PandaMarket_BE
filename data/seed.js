@@ -39,8 +39,8 @@ async function main() {
 
   // 관계형 데이터 처리
   // articles
-  const userIds = (await prisma.user.findMany()).map((u) => u.id);
-  const newArticles = articles.map((article) => {
+  const userIds = (await prisma.user.findMany()).map(u => u.id);
+  const newArticles = articles.map(article => {
     return {
       ...article,
       ownerId: userIds[getRandomInteger(0, userIds.length - 1)],
@@ -52,9 +52,9 @@ async function main() {
   });
 
   // comments
-  const productIds = (await prisma.product.findMany()).map((p) => p.id);
-  const articleIds = (await prisma.article.findMany()).map((a) => a.id);
-  const newComments = comments.map((comment) => {
+  const productIds = (await prisma.product.findMany()).map(p => p.id);
+  const articleIds = (await prisma.article.findMany()).map(a => a.id);
+  const newComments = comments.map(comment => {
     const relatedWithArticles = getRandomInteger(0, 1); // 0 or 1
     const relation = relatedWithArticles // 위에서 얻은 결과에 따라 랜덤하게 배정됨
       ? { articleId: articleIds[getRandomInteger(0, articleIds.length - 1)] }
@@ -81,7 +81,7 @@ main()
     await prisma.$disconnect();
     await mongodbConnection.close();
   })
-  .catch(async (e) => {
+  .catch(async e => {
     console.log(e);
     await prisma.$disconnect();
     await mongodbConnection.close();

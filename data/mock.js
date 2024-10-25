@@ -1,13 +1,11 @@
 export const users = [
   {
     nickname: '테스트1',
-    image:
-      'https://i.namu.wiki/i/g56dB7I8zh3N7X9owRpyjVXUZngfrIBPSPK0j0ET0yeeutzfCHU9TMzsq-r3gqAP3yyMgHMz-4Z6hWGEPAS2fA.webp',
+    image: 'https://i.namu.wiki/i/g56dB7I8zh3N7X9owRpyjVXUZngfrIBPSPK0j0ET0yeeutzfCHU9TMzsq-r3gqAP3yyMgHMz-4Z6hWGEPAS2fA.webp',
   },
   {
     nickname: '테스트2',
-    image:
-      'https://i.namu.wiki/i/nBcFlgxfp6CHeWkC_pzsQwBRnp0qji0FhfgETQI6RNJ7FfOyRWN-1vCJGPX_vhOSwhE_Te-Tcx2Dj-IetxcTnA.webp',
+    image: 'https://i.namu.wiki/i/nBcFlgxfp6CHeWkC_pzsQwBRnp0qji0FhfgETQI6RNJ7FfOyRWN-1vCJGPX_vhOSwhE_Te-Tcx2Dj-IetxcTnA.webp',
   },
   {
     nickname: '테스트3',
@@ -18,18 +16,15 @@ export const users = [
   },
   {
     nickname: '테스트5',
-    image:
-      'https://jjalbang.today/files/jjalbox/2024/03/20240317_65f6db17a43f2.jpg',
+    image: 'https://jjalbang.today/files/jjalbox/2024/03/20240317_65f6db17a43f2.jpg',
   },
   {
     nickname: '테스트1',
-    image:
-      'https://i.namu.wiki/i/g56dB7I8zh3N7X9owRpyjVXUZngfrIBPSPK0j0ET0yeeutzfCHU9TMzsq-r3gqAP3yyMgHMz-4Z6hWGEPAS2fA.webp',
+    image: 'https://i.namu.wiki/i/g56dB7I8zh3N7X9owRpyjVXUZngfrIBPSPK0j0ET0yeeutzfCHU9TMzsq-r3gqAP3yyMgHMz-4Z6hWGEPAS2fA.webp',
   },
   {
     nickname: '테스트2',
-    image:
-      'https://i.namu.wiki/i/nBcFlgxfp6CHeWkC_pzsQwBRnp0qji0FhfgETQI6RNJ7FfOyRWN-1vCJGPX_vhOSwhE_Te-Tcx2Dj-IetxcTnA.webp',
+    image: 'https://i.namu.wiki/i/nBcFlgxfp6CHeWkC_pzsQwBRnp0qji0FhfgETQI6RNJ7FfOyRWN-1vCJGPX_vhOSwhE_Te-Tcx2Dj-IetxcTnA.webp',
   },
   {
     nickname: '테스트3',
@@ -40,18 +35,15 @@ export const users = [
   },
   {
     nickname: '테스트5',
-    image:
-      'https://jjalbang.today/files/jjalbox/2024/03/20240317_65f6db17a43f2.jpg',
+    image: 'https://jjalbang.today/files/jjalbox/2024/03/20240317_65f6db17a43f2.jpg',
   },
   {
     nickname: '테스트1',
-    image:
-      'https://i.namu.wiki/i/g56dB7I8zh3N7X9owRpyjVXUZngfrIBPSPK0j0ET0yeeutzfCHU9TMzsq-r3gqAP3yyMgHMz-4Z6hWGEPAS2fA.webp',
+    image: 'https://i.namu.wiki/i/g56dB7I8zh3N7X9owRpyjVXUZngfrIBPSPK0j0ET0yeeutzfCHU9TMzsq-r3gqAP3yyMgHMz-4Z6hWGEPAS2fA.webp',
   },
   {
     nickname: '테스트2',
-    image:
-      'https://i.namu.wiki/i/nBcFlgxfp6CHeWkC_pzsQwBRnp0qji0FhfgETQI6RNJ7FfOyRWN-1vCJGPX_vhOSwhE_Te-Tcx2Dj-IetxcTnA.webp',
+    image: 'https://i.namu.wiki/i/nBcFlgxfp6CHeWkC_pzsQwBRnp0qji0FhfgETQI6RNJ7FfOyRWN-1vCJGPX_vhOSwhE_Te-Tcx2Dj-IetxcTnA.webp',
   },
   {
     nickname: '테스트3',
@@ -62,8 +54,7 @@ export const users = [
   },
   {
     nickname: '테스트5',
-    image:
-      'https://jjalbang.today/files/jjalbox/2024/03/20240317_65f6db17a43f2.jpg',
+    image: 'https://jjalbang.today/files/jjalbox/2024/03/20240317_65f6db17a43f2.jpg',
   },
 ];
 
