@@ -21,7 +21,7 @@ export class ArticleRepo {
     let sortOption;
     switch (orderBy) {
       case 'like':
-        sortOption = { orderBy: { like: 'desc' } };
+        sortOption = { orderBy: { likeCount: 'desc' } };
         break;
       case 'recent':
       default:
