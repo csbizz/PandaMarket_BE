@@ -28,26 +28,36 @@ export class ArticleRepo {
         sortOption = { orderBy: { createdAt: 'desc' } };
     }
 
-    const searchOption = keyword
-      ? {
-          where: {
-            OR: [{ title: { contains: keyword } }, { content: { contains: keyword } }],
-          },
-        }
-      : {};
+    const searchOption = keyword ? { where: { title: { contains: keyword } } } : {};
 
     const articles = await this.db.findMany({
       ...searchOption,
       ...sortOption,
       take: pageSize,
       skip: (page - 1) * pageSize,
+      include: {
+        owner: {
+          select: {
+            nickname: true,
+          },
+        },
+      },
     });
 
     return articles;
   };
 
   findById = async id => {
-    const article = await this.db.findUnique({ where: { id } });
+    const article = await this.db.findUnique({
+      where: { id },
+      include: {
+        owner: {
+          select: {
+            nickname: true,
+          },
+        },
+      },
+    });
 
     return article;
   };

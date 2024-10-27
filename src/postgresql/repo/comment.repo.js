@@ -29,6 +29,13 @@ export class CommentRepo {
       where: typeOption,
       orderBy: { createdAt: 'desc' },
       take: limit,
+      include: {
+        owner: {
+          select: {
+            nickname: true,
+          },
+        },
+      },
       ...pageOption,
     });
     const nextCursor = comments.length ? { nextCursor: comments.at(-1).id } : {};
