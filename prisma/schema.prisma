@@ -39,6 +39,8 @@ model Product {
   comments      Comment[]
   productTags   ProductTag[]
   productImages ProductImage[]
+
+  @@index([createdAt])
 }
 
 model ProductTag {
@@ -70,6 +72,8 @@ model Article {
   likeUsers     User[]         @relation(name: "likeOwnership")
   comments      Comment[]
   articleImages ArticleImage[]
+
+  @@index([createdAt])
 }
 
 model ArticleImage {

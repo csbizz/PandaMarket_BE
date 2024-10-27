@@ -40,7 +40,7 @@ export class ArticleRepo {
       ...searchOption,
       ...sortOption,
       take: pageSize,
-      skip: page,
+      skip: (page - 1) * pageSize,
     });
 
     return articles;
