@@ -18,9 +18,16 @@ export class ProductRepo {
   };
 
   findMany = async ({ orderBy, page, pageSize, keyword }) => {
-    const sortOption = {
-      orderBy: { createdAt: orderBy === 'recent' ? 'desc' : 'asc' },
-    };
+    let sortOption;
+    switch (orderBy) {
+      case 'like':
+        sortOption = { orderBy: { likeCount: 'desc' } };
+        break;
+      case 'recent':
+      default:
+        sortOption = { orderBy: { createdAt: 'desc' } };
+    }
+
     const searchOption = keyword
       ? {
           where: {

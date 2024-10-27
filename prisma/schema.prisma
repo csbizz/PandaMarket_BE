@@ -20,22 +20,22 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  favoriteProducts Product[]
-  ownArticles      Article[] @relation(name: "articleOwnership")
-  likeArticles     Article[] @relation(name: "likeOwnership")
-  ownComments      Comment[]
+  likeProducts Product[]
+  ownArticles  Article[] @relation(name: "articleOwnership")
+  likeArticles Article[] @relation(name: "likeOwnership")
+  ownComments  Comment[]
 }
 
 model Product {
-  id            String   @id @default(uuid())
-  name          String //min 1, max 10
-  description   String //min 10, max 100
-  price         Int //min 1
-  favoriteCount Int      @default(0) //min 0
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String //min 1, max 10
+  description String //min 10, max 100
+  price       Int //min 1
+  likeCount   Int      @default(0) //min 0 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  favoriteUsers User[]
+  likeUsers     User[]
   comments      Comment[]
   productTags   ProductTag[]
   productImages ProductImage[]
