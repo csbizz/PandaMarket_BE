@@ -29,14 +29,7 @@ export class ArticleService {
   };
 
   patchArticle = async (id, body) => {
-    const article = await this.repo.findById(id);
-    if (!article) return;
-
-    Object.keys(body).forEach(k => {
-      article[k] = body[k];
-    });
-
-    const updated = await this.repo.update(id, article);
+    const updated = await this.repo.update(id, body);
 
     return updated;
   };
