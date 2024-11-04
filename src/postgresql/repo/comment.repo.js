@@ -50,7 +50,6 @@ export class CommentRepo {
   };
 
   create = async data => {
-    console.log('🚀 ~ CommentRepo ~ data:', data);
     const comment = await this.db.create({ data });
 
     return comment;

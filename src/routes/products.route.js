@@ -1,7 +1,7 @@
 import express from 'express';
 import { productController as postgresProductController } from '../postgresql/containers/product.container.js';
 import { commentController as postgresCommentController } from '../postgresql/containers/comment.container.js';
-import { productController as mongocbProductController } from '../mongodb/containers/product.container.js';
+// import { productController as mongocbProductController } from '../mongodb/containers/product.container.js';
 
 export const productRouter = express.Router();
 
