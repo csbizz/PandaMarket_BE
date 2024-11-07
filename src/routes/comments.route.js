@@ -6,6 +6,9 @@ export const commentRouter = express.Router();
 // patch API
 commentRouter.patch('/:id', postgresCommentController.patchComment);
 
+// put API
+commentRouter.put('/:id', postgresCommentController.putComment);
+
 // delete API
 commentRouter.delete('/:id', postgresCommentController.deleteComment);
 

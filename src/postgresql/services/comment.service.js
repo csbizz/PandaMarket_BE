@@ -39,6 +39,15 @@ export class CommentService {
     return updated;
   };
 
+  putComment = async (id, body) => {
+    const comment = await this.repo.findById(id);
+    if (!comment) return;
+
+    const updated = await this.repo.update(id, body);
+
+    return updated;
+  };
+
   deleteComment = async id => {
     const comment = await this.repo.deleteById(id);
 

@@ -1,14 +1,14 @@
+import { Prisma } from '@prisma/client';
+import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
-import cors from 'cors';
-import { Prisma } from '@prisma/client';
-import { CastError, TypeError, ValidationError } from './error.js';
 import { StructError } from 'superstruct';
 import c from './constants.js';
-import productRouter from './routes/products.route.js';
-import devRouter from './routes/dev.route.js';
+import { CastError, TypeError, ValidationError } from './error.js';
 import articleRouter from './routes/articles.route.js';
 import commentRouter from './routes/comments.route.js';
+import devRouter from './routes/dev.route.js';
+import productRouter from './routes/products.route.js';
 
 const app = express();
 app.use(cors());
@@ -52,4 +52,31 @@ function errorHandler(err, req, res, next) {
 
 app.use(errorHandler);
 
-app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
+const startServer = async () => {
+  try {
+    // 기본 포트(3000)로 시도
+    await new Promise((resolve, reject) => {
+      const server = app.listen(process.env.PORT, () => {
+        console.log(`Server Started on port ${process.env.PORT}`);
+        resolve();
+      });
+
+      server.on('error', err => {
+        if (err.code === 'EADDRINUSE') {
+          // 기본 포트가 사용 중이면 reject
+          reject(err);
+        }
+      });
+    });
+  } catch (error) {
+    if (error.code === 'EADDRINUSE') {
+      // 3000번 포트가 사용 중이면 3001로 시도
+      app.listen(3001, () => {
+        console.log('Server Started on port 3001 (fallback)');
+      });
+    } else {
+      console.error('Failed to start server:', error);
+    }
+  }
+};
+startServer();

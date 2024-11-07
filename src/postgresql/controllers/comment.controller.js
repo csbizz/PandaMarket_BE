@@ -1,7 +1,6 @@
 import { assert } from 'superstruct';
-import { CreateComment, Cursor, PatchComment, Uuid } from '../../struct.js';
 import c from '../../constants.js';
-import { TypeError } from '../../error.js';
+import { CreateComment, Cursor, PatchComment, PutComment, Uuid } from '../../struct.js';
 
 export class CommentController {
   constructor(commentService) {
@@ -77,6 +76,18 @@ export class CommentController {
     const id = req.params.id;
 
     const comment = await this.service.patchComment(id, req.body);
+
+    if (!comment) res.status(404).json({ message: c.MESSAGES.NOID });
+
+    res.json(comment);
+  };
+
+  putComment = async (req, res) => {
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    assert(req.body, PutComment);
+    const id = req.params.id;
+
+    const comment = await this.service.putComment(id, req.body);
 
     if (!comment) res.status(404).json({ message: c.MESSAGES.NOID });
 
