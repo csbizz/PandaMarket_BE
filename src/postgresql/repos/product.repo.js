@@ -55,7 +55,6 @@ export class ProductRepo {
         owner: { select: { nickname: true } },
       },
     });
-    console.log('🚀 ~ ProductRepo ~ product:', product);
 
     return product;
   };
@@ -72,8 +71,18 @@ export class ProductRepo {
     return product;
   };
 
-  update = async (id, data) => {
-    const product = await this.product.update({ where: { id }, data });
+  update = async (id, body) => {
+    const { tags, images, ...data } = body;
+    const product = await this.product.update({
+      where: { id },
+      data: {
+        ...data,
+        productTags: {
+          deleteMany: {},
+          create: tags.map(tag => ({ tag })),
+        },
+      },
+    });
 
     return product;
   };

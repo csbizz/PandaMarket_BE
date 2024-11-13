@@ -37,11 +37,7 @@ export class ProductService {
     const product = await this.repo.findById(id);
     if (!product) return;
 
-    Object.keys(body).forEach(k => {
-      product[k] = body[k];
-    });
-
-    const updated = await this.repo.update(id, product);
+    const updated = await this.repo.update(id, body);
 
     return updated;
   };

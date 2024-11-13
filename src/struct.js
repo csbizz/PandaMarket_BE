@@ -11,6 +11,7 @@ export const CreateProduct = s.object({
   price: s.min(s.integer(), 1),
   tags: s.optional(s.array(s.size(s.string(), 1, 5))),
   images: s.optional(s.array(s.string())),
+  ownerId: Uuid,
 });
 
 export const CreateArticle = s.object({
