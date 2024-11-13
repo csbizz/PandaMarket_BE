@@ -1,6 +1,7 @@
 export class ProductRepo {
   constructor(client) {
-    this.db = client.product;
+    this.product = client.product;
+    this.productTag = client.productTag;
   }
 
   count = async keyword => {
@@ -12,7 +13,7 @@ export class ProductRepo {
         }
       : {};
 
-    const count = await this.db.count(searchOption);
+    const count = await this.product.count(searchOption);
 
     return count;
   };
@@ -36,7 +37,7 @@ export class ProductRepo {
         }
       : {};
 
-    const products = await this.db.findMany({
+    const products = await this.product.findMany({
       ...searchOption,
       ...sortOption,
       take: pageSize,
@@ -47,25 +48,38 @@ export class ProductRepo {
   };
 
   findById = async id => {
-    const product = await this.db.findUnique({ where: { id } });
+    const product = await this.product.findUnique({
+      where: { id },
+      include: {
+        productTags: { select: { tag: true } },
+        owner: { select: { nickname: true } },
+      },
+    });
+    console.log('🚀 ~ ProductRepo ~ product:', product);
 
     return product;
   };
 
-  create = async data => {
-    const product = await this.db.create({ data });
+  create = async body => {
+    const { tags, images, ...data } = body;
+    const product = await this.product.create({ data });
+    const newTags = tags.map(tag => ({ tag, productId: product.id }));
+    await this.productTag.createMany({
+      data: newTags,
+      skipDuplicates: true,
+    });
 
     return product;
   };
 
   update = async (id, data) => {
-    const product = await this.db.update({ where: { id }, data });
+    const product = await this.product.update({ where: { id }, data });
 
     return product;
   };
 
   deleteById = async id => {
-    const product = await this.db.delete({ where: { id } });
+    const product = await this.product.delete({ where: { id } });
 
     return product;
   };

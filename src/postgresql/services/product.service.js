@@ -19,7 +19,12 @@ export class ProductService {
   getProduct = async id => {
     const product = await this.repo.findById(id);
 
-    return product;
+    const tags = product.productTags.map(tagObj => tagObj.tag);
+    const result = { ...product, tags, ownerNickname: product.owner.nickname };
+    delete result.productTags;
+    delete result.owner;
+
+    return result;
   };
 
   postProduct = async body => {

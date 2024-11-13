@@ -9,7 +9,7 @@ export const CreateProduct = s.object({
   name: s.size(s.string(), 1, 10),
   description: s.size(s.string(), 10, 100),
   price: s.min(s.integer(), 1),
-  tags: s.optional(s.array(s.max(s.string(), 5))),
+  tags: s.optional(s.array(s.size(s.string(), 1, 5))),
   images: s.optional(s.array(s.string())),
 });
 

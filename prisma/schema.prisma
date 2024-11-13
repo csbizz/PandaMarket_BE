@@ -20,7 +20,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  likeProducts Product[]
+  products     Product[] @relation(name: "ownership")
+  likeProducts Product[] @relation(name: "UserLikesProduct")
   ownArticles  Article[] @relation(name: "articleOwnership")
   likeArticles Article[] @relation(name: "likeOwnership")
   ownComments  Comment[]
@@ -35,7 +36,9 @@ model Product {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  likeUsers     User[]
+  owner         User           @relation(name: "ownership", fields: [ownerId], references: [id])
+  ownerId       String
+  likeUsers     User[]         @relation(name: "UserLikesProduct")
   comments      Comment[]
   productTags   ProductTag[]
   productImages ProductImage[]
