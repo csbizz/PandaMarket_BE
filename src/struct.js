@@ -44,6 +44,7 @@ export const PatchUser = s.object({
   nickname: s.optional(s.string()),
   password: s.optional(s.string()),
   salt: s.optional(s.string()),
+  refreshToken: s.optional(s.string()),
 });
 export const PatchProduct = s.partial(CreateProduct);
 export const PatchArticle = s.partial(CreateArticle);

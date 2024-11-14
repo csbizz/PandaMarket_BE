@@ -1,4 +1,4 @@
-import { TypeError } from '../../error.js';
+import { TypeError } from '../../utils/error.js';
 
 export class CommentRepo {
   constructor(client) {

@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { StructError } from 'superstruct';
-import c from '../constants.js';
-import { CastError, ValidationError } from '../error.js';
+import c from '../utils/constants.js';
+import { CastError, ValidationError } from '../utils/error.js';
 
 export default function errorHandler(err, req, res, next) {
   console.error(err);

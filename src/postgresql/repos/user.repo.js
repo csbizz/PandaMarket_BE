@@ -56,4 +56,10 @@ export class UserRepo {
 
     return user;
   };
+
+  update = async (id, data) => {
+    const user = await this.db.update({ where: { id }, data });
+
+    return user;
+  };
 }

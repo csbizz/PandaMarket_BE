@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import hashingPassword from '../hashingPassword.js';
+import hashingPassword from '../utils/hashingPassword.js';
 
 export default function hashPassword(req, res, next) {
   if (!req.body.password) next();

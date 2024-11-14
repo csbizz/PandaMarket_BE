@@ -1,5 +1,5 @@
 export default function filterSensitiveData(data) {
-  const { password, salt, ...rest } = data;
+  const { password, salt, refreshToken, ...rest } = data;
 
   return rest;
 }

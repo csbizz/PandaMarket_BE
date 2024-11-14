@@ -1,7 +1,7 @@
 import { assert } from 'superstruct';
-import c from '../../constants.js';
 import { MongodbId } from '../../struct.js';
-import { TypeError } from '../../error.js';
+import c from '../../utils/constants.js';
+import { TypeError } from '../../utils/error.js';
 
 export class ProductController {
   constructor(productService) {

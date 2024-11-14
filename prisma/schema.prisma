@@ -14,14 +14,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  nickname  String
-  image     String?
-  password  String
-  salt      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid())
+  email        String   @unique
+  nickname     String
+  image        String?
+  password     String
+  salt         String
+  refreshToken String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   products     Product[] @relation(name: "ownership")
   likeProducts Product[] @relation(name: "UserLikesProduct")

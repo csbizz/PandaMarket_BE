@@ -1,5 +1,6 @@
-import filterSensitiveData from '../../filterSensitiveData.js';
-import hashingPassword from '../../hashingPassword.js';
+import createToken from '../../utils/createToken.js';
+import filterSensitiveData from '../../utils/filterSensitiveData.js';
+import hashingPassword from '../../utils/hashingPassword.js';
 
 export class AuthService {
   constructor(userRepo) {
@@ -26,6 +27,14 @@ export class AuthService {
 
     if (hashedPassword != password) return null;
 
-    return filterSensitiveData(user);
+    const accessToken = createToken(user, 'access');
+    // NOTE refreshToken 발급 후 최근 발급된 토큰을 유저 정보에 저장
+    const refreshToken = createToken(user, 'refresh');
+    user.refreshToken = refreshToken;
+    await this.repo.update(user.id, user);
+    // NOTE 엄데이트될 데이터에 accessToken이 들어가지 않도록 뒤에서 추가
+    user.accessToken = accessToken;
+
+    return { user: filterSensitiveData(user), refreshToken };
   };
 }

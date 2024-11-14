@@ -11,7 +11,7 @@ export class AuthController {
 
     const user = await this.service.createUser(req.body);
 
-    if (!user) res.status(404).json();
+    if (!user) res.status(400).json();
     // NOTE 유저가 이미 존재함
     if (user === true) res.status(400).json({ messages: 'User already exist' });
     res.status(201).json(user);
@@ -20,9 +20,14 @@ export class AuthController {
   signIn = async (req, res) => {
     assert(req.body, SignIn);
 
-    const user = await this.service.getUser(req.body);
+    const { user, refreshToken } = await this.service.getUser(req.body);
 
-    if (!user) res.status(404).json();
+    if (!user) res.status(401).json();
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: true,
+    });
     res.json(user);
   };
 }
