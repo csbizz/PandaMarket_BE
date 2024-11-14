@@ -20,14 +20,36 @@ export class AuthController {
   signIn = async (req, res) => {
     assert(req.body, SignIn);
 
-    const { user, refreshToken } = await this.service.getUser(req.body);
+    const { user, refreshToken } = await this.service.signIn(req.body);
 
     if (!user) res.status(401).json();
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       sameSite: 'Lax',
-      secure: true,
+      secure: false, // NOTE https가 아니면 false로
     });
+    res.json(user);
+  };
+
+  getMe = async (req, res) => {
+    const { userId } = req.user;
+    if (!userId) res.status(400).json();
+
+    const user = await this.service.getUserById(userId);
+    if (!user) res.status(404).json();
+
+    res.json(user);
+  };
+
+  refreshToken = async (req, res) => {
+    const { refreshToken } = req.cookies;
+    console.log('🚀 ~ AuthController ~ refreshToken= ~ req.cookies:', req.cookies);
+    const { userId } = req.user;
+    if (!userId) res.status(400).json();
+
+    const user = await this.service.getNewTokens(userId, refreshToken);
+    if (!user) res.status(404).json();
+
     res.json(user);
   };
 }

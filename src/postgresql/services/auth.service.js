@@ -7,18 +7,24 @@ export class AuthService {
     this.repo = userRepo;
   }
 
+  getUserById = async id => {
+    const user = await this.repo.findById(id);
+    if (!user) return null;
+
+    return filterSensitiveData(user);
+  };
+
   createUser = async body => {
     const exist = await this.repo.findByEmail(body.email);
-    console.log('🚀 ~ AuthService ~ exist:', exist);
     if (exist) return true;
 
     const user = await this.repo.create(body);
     if (!user) return null;
 
-    return user;
+    return filterSensitiveData(user);
   };
 
-  getUser = async body => {
+  signIn = async body => {
     const user = await this.repo.findByEmail(body.email);
     if (!user) return null;
 
@@ -36,5 +42,16 @@ export class AuthService {
     user.accessToken = accessToken;
 
     return { user: filterSensitiveData(user), refreshToken };
+  };
+
+  getNewToken = async (userId, refreshToken) => {
+    const user = await this.repo.findById(userId);
+    if (!user) return null;
+    if (user.refreshToken !== refreshToken) return null;
+
+    const accessToken = createToken(user, 'access');
+    user.accessToken = accessToken;
+
+    return filterSensitiveData(user);
   };
 }

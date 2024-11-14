@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
@@ -16,6 +17,7 @@ const upload = multer({ dest: 'uploads/' });
 /*********************************************************************************** middlewares **********************************************************************************************/
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(upload.single('file'));
 app.use('/files', express.static('uploads'));
 app.use(validatePaginationOptions);

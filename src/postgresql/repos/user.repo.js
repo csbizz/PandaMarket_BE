@@ -34,6 +34,14 @@ export class UserRepo {
     return users;
   };
 
+  findById = async id => {
+    const user = await this.db.findUnique({
+      where: { id },
+    });
+
+    return user;
+  };
+
   findByEmail = async email => {
     const user = await this.db.findUnique({
       where: { email },
