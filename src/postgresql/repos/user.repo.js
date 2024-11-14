@@ -33,4 +33,27 @@ export class UserRepo {
 
     return users;
   };
+
+  findByEmail = async email => {
+    const user = await this.db.findUnique({
+      where: { email },
+    });
+
+    return user;
+  };
+
+  findBySignInForm = async body => {
+    const { email, password } = body;
+    const user = await this.db.findFirst({
+      where: { email, password },
+    });
+
+    return user;
+  };
+
+  create = async data => {
+    const user = await this.db.create({ data });
+
+    return user;
+  };
 }

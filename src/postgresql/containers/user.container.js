@@ -7,4 +7,4 @@ const userModel = new UserRepo(prismaClient);
 const userService = new UserService(userModel);
 const userController = new UserController(userService);
 
-export { userController };
+export default userController;

@@ -1,7 +1,7 @@
 import { assert } from 'superstruct';
 import { CreateProduct, PatchProduct } from '../struct.js';
 
-const validateProduct = async (req, res, next) => {
+export default function validateProduct(req, res, next) {
   req.body = JSON.parse(req.body.data);
   switch (req.method) {
     case 'POST':
@@ -16,6 +16,4 @@ const validateProduct = async (req, res, next) => {
   req.body.file = req.file;
 
   next();
-};
-
-export default validateProduct;
+}

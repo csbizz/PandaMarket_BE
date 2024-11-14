@@ -1,4 +1,4 @@
-function validatePaginationOptions(req, res, next) {
+export default function validatePaginationOptions(req, res, next) {
   const page = req.query.page;
   const pageSize = req.query.pageSize;
   const limit = req.query.limit;
@@ -9,5 +9,3 @@ function validatePaginationOptions(req, res, next) {
 
   next();
 }
-
-export default validatePaginationOptions;

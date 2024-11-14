@@ -1,6 +1,6 @@
 import express from 'express';
-import { commentController as postgresCommentController } from '../postgresql/containers/comment.container.js';
-import { userController as postgresUserController } from '../postgresql/containers/user.container.js';
+import postgresCommentController from '../postgresql/containers/comment.container.js';
+import postgresUserController from '../postgresql/containers/user.container.js';
 
 export const devRouter = express.Router();
 

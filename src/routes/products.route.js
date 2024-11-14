@@ -1,7 +1,7 @@
 import express from 'express';
 import validateProduct from '../middlewares/product.validation.js';
-import { commentController as postgresCommentController } from '../postgresql/containers/comment.container.js';
-import { productController as postgresProductController } from '../postgresql/containers/product.container.js';
+import postgresCommentController from '../postgresql/containers/comment.container.js';
+import postgresProductController from '../postgresql/containers/product.container.js';
 // import { productController as mongocbProductController } from '../mongodb/containers/product.container.js';
 
 export const productRouter = express.Router();

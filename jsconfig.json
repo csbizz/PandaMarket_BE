@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "paths": {
-      "@/*": ["./*"]
-    },
+    // "paths": {
+    //   "@/*": ["./*"]
+    // },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ESNext",

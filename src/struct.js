@@ -1,9 +1,23 @@
+import isEmail from 'is-email';
 import isUuid from 'is-uuid';
 import * as s from 'superstruct';
 
 export const MongodbId = s.size(s.string(), 24, 24);
 export const Uuid = s.define('Uuid', value => isUuid.v4(value));
+export const Email = s.define('Email', isEmail);
 export const Cursor = s.optional(Uuid);
+
+export const SignIn = s.object({
+  email: Email,
+  password: s.string(),
+});
+
+export const CreateUser = s.object({
+  email: Email,
+  nickname: s.string(),
+  password: s.string(),
+  salt: s.string(),
+});
 
 export const CreateProduct = s.object({
   name: s.size(s.string(), 1, 10),
@@ -26,6 +40,11 @@ export const CreateComment = s.object({
   ownerId: Uuid,
 });
 
+export const PatchUser = s.object({
+  nickname: s.optional(s.string()),
+  password: s.optional(s.string()),
+  salt: s.optional(s.string()),
+});
 export const PatchProduct = s.partial(CreateProduct);
 export const PatchArticle = s.partial(CreateArticle);
 export const PatchComment = s.object({ content: s.string() });

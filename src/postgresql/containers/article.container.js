@@ -7,4 +7,4 @@ const articleModel = new ArticleRepo(prismaClient);
 const articleService = new ArticleService(articleModel);
 const articleController = new ArticleController(articleService);
 
-export { articleController };
+export default articleController;

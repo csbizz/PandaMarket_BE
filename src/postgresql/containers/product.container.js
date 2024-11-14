@@ -7,4 +7,4 @@ const productModel = new ProductRepo(prismaClient);
 const productService = new ProductService(productModel);
 const productController = new ProductController(productService);
 
-export { productController };
+export default productController;

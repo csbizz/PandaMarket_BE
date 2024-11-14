@@ -3,7 +3,7 @@ import { StructError } from 'superstruct';
 import c from '../constants.js';
 import { CastError, ValidationError } from '../error.js';
 
-function errorHandler(err, req, res, next) {
+export default function errorHandler(err, req, res, next) {
   console.error(err);
   if (err instanceof Prisma.PrismaClientValidationError || err instanceof TypeError || err instanceof ValidationError) {
     res.status(c.HTTP_STATUS.BAD_REQUEST).send({ message: err.message });
@@ -17,5 +17,3 @@ function errorHandler(err, req, res, next) {
     res.status(c.HTTP_STATUS.SERVER_ERROR).send({ message: err.message });
   }
 }
-
-export default errorHandler;
