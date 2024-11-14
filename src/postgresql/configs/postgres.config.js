@@ -1,6 +1,6 @@
-import * as dotenv from 'dotenv';
+// import * as dotenv from 'dotenv';
 
-dotenv.config();
+// dotenv.config();
 
 export const postgresConnectionConfig = {
   host: process.env.POSTGRES_HOST,
@@ -8,5 +8,6 @@ export const postgresConnectionConfig = {
   username: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
+  url: process.env.DATABASE_URL,
   render: process.env.DATABASE_URL_render,
 };

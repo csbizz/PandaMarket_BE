@@ -28,7 +28,8 @@ export class ProductService {
   };
 
   postProduct = async body => {
-    const product = await this.repo.create(body);
+    const { product, image } = await this.repo.create(body);
+    product.imageUrl = `/files/${image.fileName}`;
 
     return product;
   };
@@ -46,5 +47,19 @@ export class ProductService {
     const product = await this.repo.deleteById(id);
 
     return product;
+  };
+
+  toggleProductLike = async (productId, userId) => {
+    const product = await this.repo.findById(productId);
+    if (!product) return;
+
+    // NOTE likeUsers에 userId가 있는지 확인
+    const likeStatus = product.likeUsers.some(user => user.id === userId);
+    likeStatus ? await this.repo.unlike(productId, userId) : await this.repo.like(productId, userId);
+
+    const newProduct = await this.repo.findById(productId);
+    newProduct.isLiked = !likeStatus;
+
+    return newProduct;
   };
 }

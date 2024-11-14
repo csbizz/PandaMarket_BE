@@ -10,8 +10,8 @@ export const CreateProduct = s.object({
   description: s.size(s.string(), 10, 100),
   price: s.min(s.integer(), 1),
   tags: s.optional(s.array(s.size(s.string(), 1, 5))),
-  images: s.optional(s.array(s.string())),
   ownerId: Uuid,
+  file: s.optional(s.any()),
 });
 
 export const CreateArticle = s.object({

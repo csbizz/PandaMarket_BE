@@ -1,7 +1,6 @@
 import { assert } from 'superstruct';
-import { CreateProduct, PatchProduct, Uuid } from '../../struct.js';
 import c from '../../constants.js';
-import { TypeError } from '../../error.js';
+import { PatchProduct, Uuid } from '../../struct.js';
 
 export class ProductController {
   constructor(productService) {
@@ -20,6 +19,7 @@ export class ProductController {
       pageSize,
       keyword,
     });
+    if (!resBody) res.status(404).json();
 
     res.json(resBody);
   };
@@ -36,10 +36,9 @@ export class ProductController {
   };
 
   postProduct = async (req, res) => {
-    assert(req.body, CreateProduct);
-
     const product = await this.service.postProduct(req.body);
 
+    if (!product) res.status(404).json();
     res.status(201).json(product);
   };
 
@@ -63,6 +62,16 @@ export class ProductController {
 
     if (!product) res.status(404).json({ message: c.MESSAGES.NOID });
 
+    res.json(product);
+  };
+
+  toggleProductLike = async (req, res) => {
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    const productId = req.params.id;
+    const userId = '';
+    const product = await this.service.toggleProductLike(productId, userId);
+
+    if (!product) res.status(404).json();
     res.json(product);
   };
 }

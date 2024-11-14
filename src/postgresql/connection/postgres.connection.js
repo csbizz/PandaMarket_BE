@@ -1,10 +1,9 @@
-import { postgresConnectionConfig } from '../configs/postgres.config.js';
 import { PrismaClient } from '@prisma/client';
+import { postgresConnectionConfig } from '../configs/postgres.config.js';
 
-const { host, port, database, username, password, render } = postgresConnectionConfig;
+const { render, url } = postgresConnectionConfig;
 
-const connectionString = `postgresql://${username}:${password}@${host}:${port}/${database}?schema=public`;
-const connectionOption = { datasourceUrl: connectionString };
+const connectionOption = { datasourceUrl: url };
 // const connectionOption = { datasourceUrl: render };
 
 export const prismaClient = new PrismaClient({
