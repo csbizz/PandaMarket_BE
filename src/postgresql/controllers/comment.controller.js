@@ -1,6 +1,6 @@
 import { assert } from 'superstruct';
-import c from '../../constants.js';
 import { CreateComment, Cursor, PatchComment, PutComment, Uuid } from '../../struct.js';
+import c from '../../utils/constants.js';
 
 export class CommentController {
   constructor(commentService) {

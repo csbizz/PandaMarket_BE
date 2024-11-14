@@ -1,7 +1,6 @@
 import { assert } from 'superstruct';
-import c from '../../constants.js';
 import { CreateArticle, PatchArticle, Uuid } from '../../struct.js';
-import { TypeError } from '../../error.js';
+import c from '../../utils/constants.js';
 
 export class ArticleController {
   constructor(articleService) {

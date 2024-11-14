@@ -1,5 +1,5 @@
-import * as mock from './mock.js';
 import { prismaClient as prisma } from '../src/postgresql/connection/postgres.connection.js';
+import * as mock from './mock.js';
 
 function getRandomInteger(min, max) {
   const minCeiled = Math.ceil(min);
@@ -25,20 +25,21 @@ async function main() {
 
   // create part
   // 관계형이 아닌 데이터부터 처리
-  await prisma.$transaction([
-    prisma.user.createMany({
-      data: mock.users,
-      skipDuplicates: true,
-    }),
-    prisma.product.createMany({
-      data: mock.products,
-      skipDuplicates: true,
-    }),
-  ]);
+  await prisma.user.createMany({
+    data: mock.users,
+    skipDuplicates: true,
+  });
 
   // 관계형 데이터 처리
-  // articles
+  // products
   const userIds = (await prisma.user.findMany()).map(u => u.id);
+  const newProducts = mock.products.map(product => ({ ...product, ownerId: userIds[getRandomInteger(0, userIds.length - 1)] }));
+  await prisma.product.createMany({
+    data: newProducts,
+    skipDuplicates: true,
+  });
+
+  // articles
   const newArticles = mock.articles.map(article => {
     return {
       ...article,
@@ -96,7 +97,7 @@ async function main() {
   productIds.forEach(id => {
     const imgIndex = getRandomInteger(0, mock.productImages.length - 1);
 
-    newProductImages.push({ image: mock.productImages[imgIndex], productId: id });
+    newProductImages.push({ originalName: mock.productImages[imgIndex], fileName: mock.productImages[imgIndex], productId: id });
   });
   await prisma.productImage.createMany({
     data: newProductImages,
