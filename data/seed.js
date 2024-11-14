@@ -97,7 +97,7 @@ async function main() {
   productIds.forEach(id => {
     const imgIndex = getRandomInteger(0, mock.productImages.length - 1);
 
-    newProductImages.push({ image: mock.productImages[imgIndex], productId: id });
+    newProductImages.push({ originalName: mock.productImages[imgIndex], fileName: mock.productImages[imgIndex], productId: id });
   });
   await prisma.productImage.createMany({
     data: newProductImages,

@@ -36,8 +36,8 @@ model Product {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  owner         User           @relation(name: "ownership", fields: [ownerId], references: [id])
-  ownerId       String
+  owner         User?          @relation(name: "ownership", fields: [ownerId], references: [id], onDelete: SetNull)
+  ownerId       String?
   likeUsers     User[]         @relation(name: "UserLikesProduct")
   comments      Comment[]
   productTags   ProductTag[]
@@ -55,8 +55,9 @@ model ProductTag {
 }
 
 model ProductImage {
-  id    String @id @default(uuid())
-  image String
+  id           String @id @default(uuid())
+  originalName String
+  fileName     String
 
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
