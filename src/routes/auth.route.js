@@ -2,6 +2,7 @@ import express from 'express';
 import { verifyAccessToken, verifyRefreshToken } from '../middlewares/auth.js';
 import hashPassword from '../middlewares/hash.js';
 import postgresAuthController from '../postgresql/containers/auth.container.js';
+import compareExp from '../utils/compareExp.js';
 
 export const authRouter = express.Router();
 
@@ -16,6 +17,7 @@ authRouter.post('/refresh', verifyRefreshToken, postgresAuthController.refreshTo
 
 authRouter.get('/test', verifyAccessToken, (req, res) => {
   console.log('user: ', req.user);
+  compareExp(req.user.exp);
 });
 
 export default authRouter;
