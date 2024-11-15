@@ -64,4 +64,24 @@ export class ArticleController {
 
     res.json(article);
   };
+
+  postArticleLike = async (req, res) => {
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    const articleId = req.params.id;
+    const userId = '';
+    const article = await this.service.postArticleLike(articleId, userId);
+
+    if (!article) res.status(404).json();
+    res.json(article);
+  };
+
+  deleteArticleLike = async (req, res) => {
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    const articleId = req.params.id;
+    const userId = '';
+    const article = await this.service.deleteArticleLike(articleId, userId);
+
+    if (!article) res.status(404).json();
+    res.json(article);
+  };
 }

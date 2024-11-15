@@ -79,4 +79,28 @@ export class ArticleRepo {
 
     return article;
   };
+
+  like = async (articleId, userId) => {
+    const article = await this.article.udpate({
+      where: { id: articleId },
+      data: {
+        likeUsers: { connect: { id: userId } },
+        likeCount: { increment: 1 },
+      },
+    });
+
+    return article;
+  };
+
+  unlike = async (articleId, userId) => {
+    const article = await this.article.udpate({
+      where: { id: articleId },
+      data: {
+        likeUsers: { disconnect: { id: userId } },
+        likeCount: { decrement: 1 },
+      },
+    });
+
+    return article;
+  };
 }
