@@ -1,4 +1,5 @@
 import express from 'express';
+import { verifyAccessToken } from '../middlewares/auth.js';
 import validateProduct from '../middlewares/product.validation.js';
 import postgresCommentController from '../postgresql/containers/comment.container.js';
 import postgresProductController from '../postgresql/containers/product.container.js';
@@ -15,16 +16,19 @@ export const productRouter = express.Router();
 //   .delete(mongodbProductController.deleteProduct);
 
 // postgreSQL
-productRouter.route('/').get(postgresProductController.getProducts).post(validateProduct, postgresProductController.postProduct);
+productRouter
+  .route('/')
+  .get(postgresProductController.getProducts)
+  .post(verifyAccessToken, validateProduct, postgresProductController.postProduct);
 productRouter
   .route('/:id')
   .get(postgresProductController.getProductById)
-  .patch(validateProduct, postgresProductController.patchProduct)
-  .delete(postgresProductController.deleteProduct);
+  .patch(verifyAccessToken, validateProduct, postgresProductController.patchProduct)
+  .delete(verifyAccessToken, postgresProductController.deleteProduct);
 productRouter
   .route('/:id/comments')
   .get(postgresCommentController.getCommentsOfProduct)
-  .post(postgresCommentController.postCommentOfProduct);
+  .post(verifyAccessToken, postgresCommentController.postCommentOfProduct);
 productRouter.route('/:id/like').post().delete();
 
 export default productRouter;

@@ -25,8 +25,8 @@ export class AuthController {
     if (!user) res.status(401).json();
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      sameSite: 'Lax',
-      secure: false, // NOTE https가 아니면 false로
+      sameSite: 'none',
+      secure: true, // NOTE https가 아니면 false로
     });
     res.json(user);
   };
@@ -43,11 +43,10 @@ export class AuthController {
 
   refreshToken = async (req, res) => {
     const { refreshToken } = req.cookies;
-    console.log('🚀 ~ AuthController ~ refreshToken= ~ req.cookies:', req.cookies);
     const { userId } = req.user;
     if (!userId) res.status(400).json();
 
-    const user = await this.service.getNewTokens(userId, refreshToken);
+    const user = await this.service.getNewToken(userId, refreshToken);
     if (!user) res.status(404).json();
 
     res.json(user);
