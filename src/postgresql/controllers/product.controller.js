@@ -65,11 +65,21 @@ export class ProductController {
     res.json(product);
   };
 
-  toggleProductLike = async (req, res) => {
+  postProductLike = async (req, res) => {
     assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
     const productId = req.params.id;
     const userId = '';
-    const product = await this.service.toggleProductLike(productId, userId);
+    const product = await this.service.postProductLike(productId, userId);
+
+    if (!product) res.status(404).json();
+    res.json(product);
+  };
+
+  deleteProductLike = async (req, res) => {
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    const productId = req.params.id;
+    const userId = '';
+    const product = await this.service.deleteProductLike(productId, userId);
 
     if (!product) res.status(404).json();
     res.json(product);

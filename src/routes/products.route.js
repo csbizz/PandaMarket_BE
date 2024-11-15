@@ -20,15 +20,21 @@ productRouter
   .route('/')
   .get(postgresProductController.getProducts)
   .post(verifyAccessToken, validateProduct, postgresProductController.postProduct);
+
 productRouter
   .route('/:id')
   .get(postgresProductController.getProductById)
   .patch(verifyAccessToken, validateProduct, postgresProductController.patchProduct)
   .delete(verifyAccessToken, postgresProductController.deleteProduct);
+
 productRouter
   .route('/:id/comments')
   .get(postgresCommentController.getCommentsOfProduct)
   .post(verifyAccessToken, postgresCommentController.postCommentOfProduct);
-productRouter.route('/:id/like').post().delete();
+
+productRouter
+  .route('/:id/like', verifyAccessToken)
+  .post(postgresProductController.postProductLike)
+  .delete(postgresProductController.deleteProductLike);
 
 export default productRouter;

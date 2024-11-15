@@ -46,7 +46,7 @@ export class AuthController {
     const { userId } = req.user;
     if (!userId) res.status(400).json();
 
-    const user = await this.service.getNewToken(userId, refreshToken);
+    const user = await this.service.getNewToken(req.user, refreshToken);
     if (!user) res.status(404).json();
 
     res.json(user);

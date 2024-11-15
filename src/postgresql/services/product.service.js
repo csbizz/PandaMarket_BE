@@ -49,17 +49,17 @@ export class ProductService {
     return product;
   };
 
-  toggleProductLike = async (productId, userId) => {
-    const product = await this.repo.findById(productId);
-    if (!product) return;
+  postProductLike = async (productId, userId) => {
+    const product = await this.repo.like(productId, userId);
+    product.isLiked = true;
 
-    // NOTE likeUsers에 userId가 있는지 확인
-    const likeStatus = product.likeUsers.some(user => user.id === userId);
-    likeStatus ? await this.repo.unlike(productId, userId) : await this.repo.like(productId, userId);
+    return product;
+  };
 
-    const newProduct = await this.repo.findById(productId);
-    newProduct.isLiked = !likeStatus;
+  deleteProductLike = async (productId, userId) => {
+    const product = await this.repo.unlike(productId, userId);
+    product.isLiked = false;
 
-    return newProduct;
+    return product;
   };
 }

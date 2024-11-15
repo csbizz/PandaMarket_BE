@@ -1,3 +1,4 @@
+import compareExp from '../../utils/compareExp.js';
 import createToken from '../../utils/createToken.js';
 import filterSensitiveData from '../../utils/filterSensitiveData.js';
 import hashingPassword from '../../utils/hashingPassword.js';
@@ -44,10 +45,19 @@ export class AuthService {
     return { user: filterSensitiveData(user), refreshToken };
   };
 
-  getNewToken = async (userId, refreshToken) => {
-    const user = await this.repo.findById(userId);
+  getNewToken = async (userToken, refreshToken) => {
+    const user = await this.repo.findById(userToken.userId);
     if (!user) return null;
     if (user.refreshToken !== refreshToken) return null;
+
+    // NOTE 리프레시 토큰의 남은 시간이 2시간 이내일경우
+    const timeRemaining = compareExp(userToken.exp);
+    if (timeRemaining < 3600 * 2) {
+      // NOTE 새 리프레시 토큰을 발급하고 이를 업데이트
+      const refreshToken = createToken(user, 'refresh');
+      user.refreshToken = refreshToken;
+      await this.repo.update(user);
+    }
 
     const accessToken = createToken(user, 'access');
     user.accessToken = accessToken;

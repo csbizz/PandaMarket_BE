@@ -39,4 +39,18 @@ export class ArticleService {
 
     return article;
   };
+
+  postArticleLike = async (articleId, userId) => {
+    const article = await this.repo.like(articleId, userId);
+    article.isLiked = true;
+
+    return article;
+  };
+
+  deleteArticleLike = async (articleId, userId) => {
+    const article = await this.repo.unlike(articleId, userId);
+    article.isLiked = false;
+
+    return article;
+  };
 }

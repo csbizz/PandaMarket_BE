@@ -21,4 +21,9 @@ articleRouter
   .get(postgresCommentController.getCommentsOfArticle)
   .post(verifyAccessToken, postgresCommentController.postCommentOfArticle);
 
+articleRouter
+  .route('/:id/like', verifyAccessToken)
+  .post(postgresArticleController.postArticleLike)
+  .delete(postgresArticleController.deleteArticleLike);
+
 export default articleRouter;
