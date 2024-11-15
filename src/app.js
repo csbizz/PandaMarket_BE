@@ -15,7 +15,7 @@ const app = express();
 
 const upload = multer({ dest: 'uploads/' });
 /*********************************************************************************** middlewares **********************************************************************************************/
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(upload.single('file'));
