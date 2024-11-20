@@ -47,11 +47,11 @@ export class ProductService {
     return { list, totalCount };
   };
 
-  getProductById = async (id) => {
+  getProductById = async id => {
     return await this.productModel.findById(id);
   };
 
-  postProduct = async (body) => {
+  postProduct = async body => {
     return await this.productModel.create(body);
   };
 
@@ -59,13 +59,13 @@ export class ProductService {
     let product = await this.productModel.findById(id);
     if (!product) return;
 
-    Object.keys(body).forEach((k) => {
+    Object.keys(body).forEach(k => {
       product[k] = body[k];
     });
     return await this.productModel.save(product);
   };
 
-  deleteProductById = async (id) => {
+  deleteProductById = async id => {
     return await this.productModel.deleteById(id);
   };
 }

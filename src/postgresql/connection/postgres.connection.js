@@ -1,12 +1,13 @@
-import { postgresConnectionConfig } from '../configs/postgres.config.js';
 import { PrismaClient } from '@prisma/client';
+import { postgresConnectionConfig } from '../configs/postgres.config.js';
 
-const { host, port, database, username, password } = postgresConnectionConfig;
+const { render, url } = postgresConnectionConfig;
 
-const connectionString = `postgresql://${username}:${password}@${host}:${port}/${database}?schema=public`;
-const connectionOption = { datasourceUrl: connectionString };
+const connectionOption = { datasourceUrl: url };
+// const connectionOption = { datasourceUrl: render };
 
 export const prismaClient = new PrismaClient({
+  ...connectionOption,
   log: [
     { level: 'info', emit: 'event' },
     { level: 'warn', emit: 'event' },
@@ -14,14 +15,14 @@ export const prismaClient = new PrismaClient({
   ],
 });
 
-prismaClient.$on('info', (e) => {
+prismaClient.$on('info', e => {
   console.log(e);
 });
 
-prismaClient.$on('warn', (e) => {
+prismaClient.$on('warn', e => {
   console.log(e);
 });
 
-prismaClient.$on('error', (e) => {
+prismaClient.$on('error', e => {
   console.log(e);
 });

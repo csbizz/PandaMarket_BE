@@ -1,7 +1,6 @@
 import { assert } from 'superstruct';
-import { CreateComment, Cursor, PatchComment, Uuid } from '../../struct.js';
-import { MESSAGES } from '../../constants.js';
-import { TypeError } from '../../error.js';
+import { CreateComment, Cursor, PatchComment, PutComment, Uuid } from '../../struct.js';
+import c from '../../utils/constants.js';
 
 export class CommentController {
   constructor(commentService) {
@@ -13,8 +12,8 @@ export class CommentController {
   };
 
   getCommentsOfArticle = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
-    assert(req.query.cursor, Cursor, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    assert(req.query.cursor, Cursor, c.MESSAGES.IDFORMAT);
     const articleId = req.params.id;
     const limit = Number(req.query.limit) || 10;
     const cursor = req.query.cursor;
@@ -30,8 +29,8 @@ export class CommentController {
   };
 
   getCommentsOfProduct = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
-    assert(req.query.cursor, Cursor, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    assert(req.query.cursor, Cursor, c.MESSAGES.IDFORMAT);
     const productId = req.params.id;
     const limit = Number(req.query.limit) || 10;
     const cursor = req.query.cursor;
@@ -47,7 +46,7 @@ export class CommentController {
   };
 
   postCommentOfArticle = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
     assert(req.body, CreateComment);
     const articleId = req.params.id;
 
@@ -59,7 +58,7 @@ export class CommentController {
   };
 
   postCommentOfProduct = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
     assert(req.body, CreateComment);
     const productId = req.params.id;
 
@@ -72,24 +71,36 @@ export class CommentController {
   };
 
   patchComment = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
     assert(req.body, PatchComment);
     const id = req.params.id;
 
     const comment = await this.service.patchComment(id, req.body);
 
-    if (!comment) res.status(404).json({ message: MESSAGES.NOID });
+    if (!comment) res.status(404).json({ message: c.MESSAGES.NOID });
+
+    res.json(comment);
+  };
+
+  putComment = async (req, res) => {
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    assert(req.body, PutComment);
+    const id = req.params.id;
+
+    const comment = await this.service.putComment(id, req.body);
+
+    if (!comment) res.status(404).json({ message: c.MESSAGES.NOID });
 
     res.json(comment);
   };
 
   deleteComment = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
     const id = req.params.id;
 
     const comment = await this.service.deleteComment(id);
 
-    if (!comment) res.status(404).json({ message: MESSAGES.NOID });
+    if (!comment) res.status(404).json({ message: c.MESSAGES.NOID });
 
     res.json(comment);
   };

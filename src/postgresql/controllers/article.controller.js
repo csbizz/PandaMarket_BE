@@ -1,7 +1,6 @@
 import { assert } from 'superstruct';
 import { CreateArticle, PatchArticle, Uuid } from '../../struct.js';
-import { MESSAGES } from '../../constants.js';
-import { TypeError } from '../../error.js';
+import c from '../../utils/constants.js';
 
 export class ArticleController {
   constructor(articleService) {
@@ -30,7 +29,7 @@ export class ArticleController {
 
     const article = await this.service.getArticle(id);
 
-    if (!article) res.status(404).json({ message: MESSAGES.NOID });
+    if (!article) res.status(404).json({ message: c.MESSAGES.NOID });
 
     res.json(article);
   };
@@ -44,25 +43,45 @@ export class ArticleController {
   };
 
   patchArticle = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
     assert(req.body, PatchArticle);
     const id = req.params.id;
 
     const article = await this.service.patchArticle(id, req.body);
 
-    if (!article) res.status(404).json({ message: MESSAGES.NOID });
+    if (!article) res.status(404).json({ message: c.MESSAGES.NOID });
 
     res.json(article);
   };
 
   deleteArticle = async (req, res) => {
-    assert(req.params.id, Uuid, MESSAGES.IDFORMAT);
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
     const id = req.params.id;
 
     const article = await this.service.deleteArticle(id);
 
-    if (!article) res.status(404).json({ message: MESSAGES.NOID });
+    if (!article) res.status(404).json({ message: c.MESSAGES.NOID });
 
+    res.json(article);
+  };
+
+  postArticleLike = async (req, res) => {
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    const articleId = req.params.id;
+    const userId = '';
+    const article = await this.service.postArticleLike(articleId, userId);
+
+    if (!article) res.status(404).json();
+    res.json(article);
+  };
+
+  deleteArticleLike = async (req, res) => {
+    assert(req.params.id, Uuid, c.MESSAGES.IDFORMAT);
+    const articleId = req.params.id;
+    const userId = '';
+    const article = await this.service.deleteArticleLike(articleId, userId);
+
+    if (!article) res.status(404).json();
     res.json(article);
   };
 }

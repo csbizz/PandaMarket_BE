@@ -1,5 +1,3 @@
-import { TypeError } from '../../error.js';
-
 export class UserController {
   constructor(userService) {
     this.service = userService;

@@ -1,42 +1,58 @@
-import * as s from 'superstruct';
+import isEmail from 'is-email';
 import isUuid from 'is-uuid';
+import * as s from 'superstruct';
 
-const MongodbId = s.size(s.string(), 24, 24);
-const Uuid = s.define('Uuid', (value) => isUuid.v4(value));
-const Cursor = s.optional(Uuid);
+export const MongodbId = s.size(s.string(), 24, 24);
+export const Uuid = s.define('Uuid', value => isUuid.v4(value));
+export const Email = s.define('Email', isEmail);
+export const Cursor = s.optional(Uuid);
 
-const CreateProduct = s.object({
+export const SignIn = s.object({
+  email: Email,
+  password: s.string(),
+});
+
+export const CreateUser = s.object({
+  email: Email,
+  nickname: s.string(),
+  password: s.string(),
+  salt: s.string(),
+});
+
+export const CreateProduct = s.object({
   name: s.size(s.string(), 1, 10),
   description: s.size(s.string(), 10, 100),
   price: s.min(s.integer(), 1),
-  tags: s.optional(s.array(s.max(s.string(), 5))),
-  images: s.optional(s.array(s.string())),
+  tags: s.optional(s.array(s.size(s.string(), 1, 5))),
+  ownerId: Uuid,
+  file: s.optional(s.any()),
 });
 
-const CreateArticle = s.object({
+export const CreateArticle = s.object({
   title: s.string(),
   content: s.string(),
   images: s.optional(s.array(s.string())),
   ownerId: Uuid,
 });
 
-const CreateComment = s.object({
+export const CreateComment = s.object({
   content: s.string(),
   ownerId: Uuid,
 });
 
-const PatchProduct = s.partial(CreateProduct);
-const PatchArticle = s.partial(CreateArticle);
-const PatchComment = s.object({ content: s.string() });
+export const PatchUser = s.object({
+  nickname: s.optional(s.string()),
+  password: s.optional(s.string()),
+  salt: s.optional(s.string()),
+  refreshToken: s.optional(s.string()),
+});
+export const PatchProduct = s.partial(CreateProduct);
+export const PatchArticle = s.partial(CreateArticle);
+export const PatchComment = s.object({ content: s.string() });
 
-export {
-  MongodbId,
-  Uuid,
-  Cursor,
-  CreateProduct,
-  CreateArticle,
-  CreateComment,
-  PatchProduct,
-  PatchArticle,
-  PatchComment,
-};
+export const PutComment = s.object({
+  content: s.string(),
+  ownerId: Uuid,
+  articleId: s.nullable(Uuid),
+  productId: s.nullable(Uuid),
+});

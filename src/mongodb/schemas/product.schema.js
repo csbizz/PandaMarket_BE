@@ -23,7 +23,7 @@ const productSchema = new Schema(
     timestamps: true,
     // 자동으로 생성해주는 collection을 사용하지 않고자 한다면 직접 명시할 수 있다.
     collection: 'products',
-  }
+  },
 );
 
 export { productSchema };

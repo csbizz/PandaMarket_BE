@@ -7,7 +7,7 @@ export class ProductModel {
     this.model = connection.model('Product', productSchema);
   }
 
-  getCount = async (keyword) => {
+  getCount = async keyword => {
     const searchOption = keyword ? { $text: { $search: keyword } } : {};
 
     return await this.model.find(searchOption).countDocuments();
@@ -24,27 +24,27 @@ export class ProductModel {
       .limit(pageSize);
   };
 
-  findById = async (id) => {
+  findById = async id => {
     return this.model.findById(id);
   };
 
-  create = async (body) => {
+  create = async body => {
     return await this.model.create(body);
   };
 
-  save = async (product) => {
+  save = async product => {
     return await product.save();
   };
 
-  deleteById = async (id) => {
+  deleteById = async id => {
     return await this.model.findByIdAndDelete(id);
   };
 
-  deleteMany = async (option) => {
+  deleteMany = async option => {
     return await this.model.deleteMany(option);
   };
 
-  insertMany = async (data) => {
+  insertMany = async data => {
     return await this.model.insertMany(data);
   };
 }
