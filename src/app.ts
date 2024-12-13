@@ -1,35 +1,13 @@
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
-import multer from 'multer';
+import setupMiddlewares from '@/src/app.middlewares.js';
+import setupRoutes from '@/src/app.routes.js';
 import errorHandler from './middlewares/error-handler.js';
-import validatePaginationOptions from './middlewares/pagination.validation.js';
-import articleRouter from './routes/articles.route.js';
-import authRouter from './routes/auth.route.js';
-import commentRouter from './routes/comments.route.js';
-import devRouter from './routes/dev.route.js';
-import productRouter from './routes/products.route.js';
 
-const app = express();
+export const app = express();
 
-const upload = multer({ dest: 'uploads/' });
-/*********************************************************************************** middlewares **********************************************************************************************/
-app.use(cors({ credentials: true, origin: true }));
-app.use(express.json());
-app.use(cookieParser());
-app.use(upload.single('file'));
-app.use('/files', express.static('uploads'));
-app.use(validatePaginationOptions);
-
-/*********************************************************************************** routes **********************************************************************************************/
-app.use('/dev', devRouter);
-app.use('/auth', authRouter);
-app.use('/products', productRouter);
-app.use('/articles', articleRouter);
-app.use('/comments', commentRouter);
-
-/*********************************************************************************** handlers **********************************************************************************************/
+setupMiddlewares(app);
+setupRoutes(app);
 app.use(errorHandler);
 
 const startServer = async () => {
@@ -41,7 +19,7 @@ const startServer = async () => {
         resolve(null);
       });
 
-      server.on('error', (err: NodeJS.ErrnoException)  => {
+      server.on('error', (err: NodeJS.ErrnoException) => {
         if (err.code === 'EADDRINUSE') {
           // 기본 포트가 사용 중이면 reject
           reject(err);

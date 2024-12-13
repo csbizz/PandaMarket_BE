@@ -46,7 +46,7 @@ export class TokenVerifier {
   };
 
   verifyRefreshToken: RequestHandler = async (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
+    const token = req.cookies.refreshToken;
 
     return await new Promise<void>(resolve => {
       expressjwt({
