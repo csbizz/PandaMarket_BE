@@ -1,5 +1,6 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import type { NextFunction, Request, Response } from 'express';
+import { IStorage } from '#types/common.type.js';
 import MESSAGES from '#utils/constants/messages.js';
 import { InternalServerError } from '#utils/http-errors.js';
 
