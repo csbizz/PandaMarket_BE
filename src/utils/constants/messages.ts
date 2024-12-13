@@ -7,6 +7,8 @@ enum MESSAGES {
 
   IDFORMAT = 'ID 형식이 올바르지 않습니다.',
   IS_EXIST = '이미 존재하는 리소스입니다.',
+  WRONG_CREDENTIAL = '아이디 혹은 비밀번호가 틀렸습니다.',
+  INVALID_TOKEN = '토큰이 잘못되었습니다.',
 }
 
 export default MESSAGES;
