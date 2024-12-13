@@ -1,5 +1,11 @@
-import { prismaClient as prisma } from '../src/connection/postgres.connection.js';
+import { PrismaClient } from '@prisma/client';
 import * as mock from './mock/mock.js';
+
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL 환경변수가 설정되지 않았습니다.');
+}
+
+const prismaClient = new PrismaClient({ datasourceUrl: process.env.DATABASE_URL });
 
 function getRandomInteger(min, max) {
   const minCeiled = Math.ceil(min);
@@ -11,30 +17,27 @@ function getRandomInteger(min, max) {
 }
 
 async function main() {
-  // postgres seeding part
-  // delete part
-  await prisma.$transaction([
-    prisma.productTag.deleteMany(),
-    prisma.productImage.deleteMany(),
-    prisma.articleImage.deleteMany(),
-    prisma.user.deleteMany(),
-    prisma.product.deleteMany(),
-    prisma.article.deleteMany(),
-    prisma.comment.deleteMany(),
+  await prismaClient.$transaction([
+    prismaClient.productTag.deleteMany(),
+    prismaClient.productImage.deleteMany(),
+    prismaClient.articleImage.deleteMany(),
+    prismaClient.user.deleteMany(),
+    prismaClient.product.deleteMany(),
+    prismaClient.article.deleteMany(),
+    prismaClient.comment.deleteMany(),
   ]);
 
-  // create part
   // 관계형이 아닌 데이터부터 처리
-  await prisma.user.createMany({
+  await prismaClient.user.createMany({
     data: mock.users,
     skipDuplicates: true,
   });
 
   // 관계형 데이터 처리
   // products
-  const userIds = (await prisma.user.findMany()).map(u => u.id);
+  const userIds = (await prismaClient.user.findMany()).map(u => u.id);
   const newProducts = mock.products.map(product => ({ ...product, ownerId: userIds[getRandomInteger(0, userIds.length - 1)] }));
-  await prisma.product.createMany({
+  await prismaClient.product.createMany({
     data: newProducts,
     skipDuplicates: true,
   });
@@ -46,14 +49,14 @@ async function main() {
       ownerId: userIds[getRandomInteger(0, userIds.length - 1)],
     };
   });
-  await prisma.article.createMany({
+  await prismaClient.article.createMany({
     data: newArticles,
     skipDuplicates: true,
   });
 
   // comments
-  const productIds = (await prisma.product.findMany()).map(p => p.id);
-  const articleIds = (await prisma.article.findMany()).map(a => a.id);
+  const productIds = (await prismaClient.product.findMany()).map(p => p.id);
+  const articleIds = (await prismaClient.article.findMany()).map(a => a.id);
   const newComments = mock.comments.map(comment => {
     const relatedWithArticles = getRandomInteger(0, 1); // 0 or 1
     const relation = relatedWithArticles // 위에서 얻은 결과에 따라 랜덤하게 배정됨
@@ -65,7 +68,7 @@ async function main() {
       ...relation,
     };
   });
-  await prisma.comment.createMany({
+  await prismaClient.comment.createMany({
     data: newComments,
     skipDuplicates: true,
   });
@@ -87,7 +90,7 @@ async function main() {
       filter.push(tagIndex);
     }
   });
-  await prisma.productTag.createMany({
+  await prismaClient.productTag.createMany({
     data: newTags,
     skipDuplicates: true,
   });
@@ -99,7 +102,7 @@ async function main() {
 
     newProductImages.push({ originalName: mock.productImages[imgIndex], fileName: mock.productImages[imgIndex], productId: id });
   });
-  await prisma.productImage.createMany({
+  await prismaClient.productImage.createMany({
     data: newProductImages,
     skipDuplicates: true,
   });
@@ -110,7 +113,7 @@ async function main() {
 
     newArticleImages.push({ image: mock.productImages[imgIndex], articleId: id });
   });
-  await prisma.articleImage.createMany({
+  await prismaClient.articleImage.createMany({
     data: newArticleImages,
     skipDuplicates: true,
   });
@@ -118,11 +121,11 @@ async function main() {
 
 main()
   .then(async () => {
-    await prisma.$disconnect();
+    await prismaClient.$disconnect();
   })
   .catch(async e => {
     console.log(e);
-    await prisma.$disconnect();
+    await prismaClient.$disconnect();
     process.exit(1);
   })
   .finally(() => {
