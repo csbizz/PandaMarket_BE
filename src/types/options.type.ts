@@ -4,8 +4,13 @@ export interface OffsetPaginationOptions {
 }
 
 export interface CursorPaginationOptions {
-  cursor: string;
+  cursor?: string;
   limit: number;
+}
+
+export enum SortOrder {
+  Recent = 'Recent',
+  Like = 'Like',
 }
 
 export interface FindOptions extends OffsetPaginationOptions {

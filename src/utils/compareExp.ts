@@ -1,4 +1,4 @@
-import secondsToHMS from './secToHMS.js';
+import secondsToHMS from '#utils/secToHMS.js';
 
 export default function compareExp(exp: number) {
   const currentTime = Math.floor(Date.now() / 1000);

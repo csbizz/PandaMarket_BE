@@ -2,24 +2,20 @@ import pluginJs from '@eslint/js';
 import prettierConfig from 'eslint-config-prettier';
 import pluginImport from 'eslint-plugin-import';
 import pluginPrettier from 'eslint-plugin-prettier';
-import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default [
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
-  {
-    languageOptions: {
-      globals: { ...globals.node },
-      parser: '@typescript-eslint/parser',
-      plugins: ['@typescript-eslint'],
-    },
-  },
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+  prettierConfig,
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: './tsconfig.json',
+        project: 'tsconfig.json',
+        tsconfigRootDir: import.meta.dirname,
+        sourceType: 'module',
       },
     },
     plugins: {
@@ -27,38 +23,7 @@ export default [
       prettier: pluginPrettier,
       import: pluginImport,
     },
-  },
-  {
-    settings: {
-      'import/resolver': {
-        node: true,
-        alias: {
-          map: [
-            ['#configs', './src/configs'],
-            ['#connection', './src/connection'],
-            ['#containers', './src/containers'],
-            ['#controllers', './src/controllers'],
-            ['#interfaces', './src/interfaces'],
-            ['#middlewares', './src/middlewares'],
-            ['#repositories', './src/repositories'],
-            ['#routes', './src/routes'],
-            ['#services', './src/services'],
-            ['#types', './src/types'],
-            ['#utils', './src/utils'],
-            ['@', './'],
-          ],
-          extensions: ['.js', '.ts', '.json'],
-        },
-      },
-      'import/internal-regex': '@/',
-    },
-  },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  prettierConfig,
-  {
     rules: {
-      'prettier/prettier': ['error', { endOfLine: 'auto' }],
       'no-restricted-globals': 'off',
       'no-unused-vars': 'off',
       'consistent-return': 'off',
@@ -73,91 +38,71 @@ export default [
           ],
         },
       ],
+
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/interface-name-prefix': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+
       'import/no-relative-parent-imports': 'error',
       'import/no-relative-packages': 'error',
-      'import/extensions': ['error', { js: 'never', ts: 'never' }],
       'import/no-duplicates': ['warn', { 'prefer-inline': true, considerQueryString: true }],
-      'import/order': [
-        'warn',
-        {
-          groups: ['builtin', 'external', 'internal'],
-          'newlines-between': 'never',
-          distinctGroup: false,
-          pathGroups: [
-            {
-              pattern: '#configs/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#connection/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#containers/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#controllers/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#interfaces/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#middlewares/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#repositories/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#routes/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#services/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#types/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '#utils/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '@/**',
-              group: 'internal',
-              position: 'after',
-            },
-            {
-              pattern: './**',
-              group: 'internal',
-              position: 'after',
-            },
-          ],
-          pathGroupsExcludedImportTypes: ['builtin'],
-          warnOnUnassignedImports: true,
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: false,
-          },
-        },
-      ],
+      // 'import/order': [
+      //   'warn',
+      //   {
+      //     groups: ['builtin', 'external', 'internal'],
+      //     'newlines-between': 'never',
+      //     distinctGroup: false,
+      //     pathGroups: [
+      //       {
+      //         pattern: '#types/**',
+      //         group: 'internal',
+      //         position: 'before',
+      //       },
+      //       {
+      //         pattern: '#global/**',
+      //         group: 'internal',
+      //         position: 'before',
+      //       },
+      //       {
+      //         pattern: '#products/**',
+      //         group: 'internal',
+      //         position: 'before',
+      //       },
+      //       {
+      //         pattern: '#prisma/**',
+      //         group: 'internal',
+      //         position: 'after',
+      //       },
+      //       {
+      //         pattern: './**',
+      //         group: 'internal',
+      //         position: 'after',
+      //       },
+      //     ],
+      //     pathGroupsExcludedImportTypes: ['builtin'],
+      //     warnOnUnassignedImports: true,
+      //     alphabetize: {
+      //       order: 'asc',
+      //       caseInsensitive: false,
+      //     },
+      //   },
+      // ],
     },
+    // settings: {
+    //   'import/resolver': {
+    //     node: true,
+    //     alias: {
+    //       map: [
+    //         ['#global', './src/global'],
+    //         ['#product', './src/product'],
+    //         ['#prisma', './prisma'],
+    //       ],
+    //       extensions: ['.js', '.ts', '.json'],
+    //     },
+    //   },
+    // },
   },
 ];
