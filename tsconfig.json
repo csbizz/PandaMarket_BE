@@ -24,7 +24,6 @@
       "#types/*": ["./src/types/*"],
       "#exceptions/*": ["./src/exceptions/*"],
       "#global/*": ["./src/global/*"],
-      "#middlewares/*": ["./src/middlewares/*"],
       "#utils/*": ["./src/utils/*"],
       "#articles/*": ["./src/articles/*"],
       "#auth/*": ["./src/auth/*"],

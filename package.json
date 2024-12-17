@@ -12,7 +12,6 @@
     "#types/*": "./dist/types/*",
     "#exceptions/*": "./dist/exceptions/*",
     "#global/*": "./dist/global/*",
-    "#middlewares/*": "./dist/middlewares/*",
     "#utils/*": "./dist/utils/*",
     "#articles/*": "./dist/articles/*",
     "#auth/*": "./dist/auth/*",

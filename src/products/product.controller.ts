@@ -1,11 +1,11 @@
 import { AccessTokenGuard } from '#auth/guards/access-token.guard.js';
 import { CommentService } from '#comments/comment.service.js';
+import { UuidValidationPipe } from '#global/pipes/uuid.validation.pipe.js';
 import { IProductController } from '#products/interfaces/product.controller.interface.js';
 import { ProductService } from '#products/product.service.js';
 import { ProductInputDTO } from '#products/product.types.js';
 import { IStorage } from '#types/common.types.js';
 import { CommentType, CursorPaginationOptions, FindOptions, SortOrder } from '#types/options.type.js';
-import assertUuid from '#utils/assertUuid.js';
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { AsyncLocalStorage } from 'async_hooks';
 
@@ -32,16 +32,14 @@ export class ProductController implements IProductController {
   }
 
   @Get(':id')
-  async getProductById(@Param('id') id: string) {
-    assertUuid(id);
+  async getProductById(@Param('id', UuidValidationPipe) id: string) {
     const product = await this.productService.getProduct(id);
 
     return product;
   }
 
   @Get(':id/comments')
-  async getComments(@Param('id') id: string, @Query() query: CursorPaginationOptions) {
-    assertUuid(id);
+  async getComments(@Param('id', UuidValidationPipe) id: string, @Query() query: CursorPaginationOptions) {
     const { cursor, limit = 10 } = query;
 
     const options = { id, cursor, limit, type: CommentType.Product };
@@ -62,9 +60,7 @@ export class ProductController implements IProductController {
   @Post(':id/comments')
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(AccessTokenGuard)
-  async postComment(@Param('id') id: string, @Body('content') content: string) {
-    assertUuid(id);
-
+  async postComment(@Param('id', UuidValidationPipe) id: string, @Body('content') content: string) {
     const data = { content, articleId: null, productId: id };
     const comment = await this.commentService.postComment(data);
 
@@ -73,8 +69,7 @@ export class ProductController implements IProductController {
 
   @Patch(':id')
   @UseGuards(AccessTokenGuard)
-  async patchProduct(@Param('id') id: string, @Body() body: Partial<ProductInputDTO>) {
-    assertUuid(id);
+  async patchProduct(@Param('id', UuidValidationPipe) id: string, @Body() body: Partial<ProductInputDTO>) {
     const product = await this.productService.patchProduct(id, body);
 
     return product;
@@ -82,8 +77,7 @@ export class ProductController implements IProductController {
 
   @Delete(':id')
   @UseGuards(AccessTokenGuard)
-  async deleteProduct(@Param('id') id: string) {
-    assertUuid(id);
+  async deleteProduct(@Param('id', UuidValidationPipe) id: string) {
     const product = await this.productService.deleteProduct(id);
 
     return product;
@@ -91,8 +85,7 @@ export class ProductController implements IProductController {
 
   @Post(':id/like')
   @UseGuards(AccessTokenGuard)
-  async postProductLike(@Param('id') id: string) {
-    assertUuid(id);
+  async postProductLike(@Param('id', UuidValidationPipe) id: string) {
     const product = await this.productService.postProductLike(id);
 
     return product;
@@ -100,8 +93,7 @@ export class ProductController implements IProductController {
 
   @Delete(':id/like')
   @UseGuards(AccessTokenGuard)
-  async deleteProductLike(@Param('id') id: string) {
-    assertUuid(id);
+  async deleteProductLike(@Param('id', UuidValidationPipe) id: string) {
     const product = await this.productService.deleteProductLike(id);
 
     return product;
