@@ -1,4 +1,4 @@
-import formatTimestamp from '#utils/format-timestamp.js';
+import logger from '#utils/logger.js';
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
@@ -9,8 +9,9 @@ export class LogInterceptor implements NestInterceptor {
     const { method, url } = req;
     const now = new Date();
 
-    console.log(`Incoming Reqeust: ${method} ${url}`);
-    console.log(`Requested Time: ${formatTimestamp(now)}`);
+    logger.info(`Incoming Reqeust: ${method} ${url}`);
+    // console.log(`Incoming Reqeust: ${method} ${url}`);
+    // console.log(`Requested Time: ${formatTimestamp(now)}`);
 
     return next.handle();
   }
