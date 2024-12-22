@@ -3,7 +3,7 @@ export interface IStorage {
 }
 
 export interface ModelBase {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  id?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

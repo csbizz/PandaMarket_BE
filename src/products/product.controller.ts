@@ -34,6 +34,7 @@ export class ProductController implements IProductController {
   @Get(':id')
   async getProductById(@Param('id', UuidValidationPipe) id: string) {
     const product = await this.productService.getProduct(id);
+    // console.log('🚀 ~ ProductController ~ getProductById ~ product:', product);
 
     return product;
   }

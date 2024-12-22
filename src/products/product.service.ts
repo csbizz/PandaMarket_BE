@@ -25,26 +25,21 @@ export class ProductService implements IProductService {
       keyword,
     });
 
-    return { totalCount, list };
+    return { totalCount, list: list.map(p => ({ ...p.output })) };
   }
 
   async getProduct(id: string) {
     const product = await this.productRepository.findById(id);
     if (!product) throw new ProductNotFoundException();
 
-    const tags = product.productTags.map(tagObj => tagObj.tag);
-    const { productTags, owner, ...filtered } = product;
-    const result = { ...filtered, tags, ownerNickname: owner?.nickname };
-
-    return result;
+    return product.output;
   }
 
   async postProduct(data: ProductInputDTO) {
     const { userId } = this.als.getStore();
-    const { product, image } = await this.productRepository.create({ ...data, ownerId: userId });
-    const imageUrl = `/files/${image.fileName}`;
+    const product = await this.productRepository.create({ ...data, ownerId: userId });
 
-    return { product, imageUrl };
+    return product.output;
   }
 
   async patchProduct(id: string, body: Partial<ProductInputDTO>) {
@@ -56,7 +51,7 @@ export class ProductService implements IProductService {
 
     const product = await this.productRepository.update(id, body);
 
-    return product;
+    return product.output;
   }
 
   async deleteProduct(id: string) {
@@ -66,9 +61,9 @@ export class ProductService implements IProductService {
     const { userId } = this.als.getStore();
     if (target.ownerId !== userId) throw new ForbiddenException();
 
-    const product = await this.productRepository.deleteById(id);
+    const product = await this.productRepository.delete(id);
 
-    return product;
+    return product.output;
   }
 
   async postProductLike(productId: string) {
@@ -79,7 +74,7 @@ export class ProductService implements IProductService {
     if (target.ownerId !== userId) throw new ForbiddenException();
     const product = await this.productRepository.like(productId, userId);
 
-    return { product, isLiked: true };
+    return { product: product.output, isLiked: true };
   }
 
   async deleteProductLike(productId: string) {
@@ -90,6 +85,6 @@ export class ProductService implements IProductService {
     if (target.ownerId !== userId) throw new ForbiddenException();
     const product = await this.productRepository.unlike(productId, userId);
 
-    return { product, isLiked: false };
+    return { product: product.output, isLiked: false };
   }
 }

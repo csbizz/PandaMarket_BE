@@ -1,6 +1,8 @@
 import { PrismaService } from '#global/prisma.service.js';
 import { IProductRepository } from '#products/interfaces/product.repository.interface.js';
-import { ProductInputDTO } from '#products/product.types.js';
+import { ProductFactory } from '#products/product.factory.js';
+import { IProduct } from '#products/product.js';
+import { ProductCreateDTO } from '#products/product.types.js';
 import { OrderByCondition, WhereCondition } from '#types/conditions.type.js';
 import { FindOptions, SortOrder } from '#types/options.type.js';
 import { Injectable } from '@nestjs/common';
@@ -57,41 +59,45 @@ export class ProductRepository implements IProductRepository {
       skip: (page - 1) * pageSize,
     });
 
-    return products;
+    return products.map(p => ProductFactory.create(p) as IProduct);
   }
 
   async findById(id: string) {
     const product = await this.product.findUnique({
       where: { id },
       include: {
-        productTags: { select: { tag: true } },
+        productTags: true,
         owner: { select: { nickname: true } },
-        likeUsers: { select: { id: true } },
+        likeUsers: true,
         comments: true,
       },
     });
 
-    return product;
+    return ProductFactory.create(product);
   }
 
-  async create(body: ProductInputDTO) {
+  async create(body: ProductCreateDTO) {
     const { tags, file, ...data } = body;
 
     const product = await this.product.create({ data });
     const newTags = tags.map(tag => ({ tag, productId: product.id }));
 
-    await this.productTag.createMany({
+    const createdTags = await this.productTag.createMany({
       data: newTags,
       skipDuplicates: true,
     });
 
     const fileData = { originalName: file.originalname, fileName: file.filename, productId: product.id };
-    const image = await this.productImage.create({ data: fileData });
+    const image = await this.productImage.create({ data: fileData, select: { fileName: true } });
 
-    return { product, image };
+    const p = { ...product };
+    p.productTags = createdTags;
+    p.productImages = [image];
+
+    return ProductFactory.create(p);
   }
 
-  async update(id: string, body: Partial<ProductInputDTO>) {
+  async update(id: string, body: Partial<ProductCreateDTO>) {
     const { tags, file, ...data } = body;
     const fileData = { originalName: file.originalname, fileName: file.filename, productId: id };
 
@@ -107,16 +113,26 @@ export class ProductRepository implements IProductRepository {
           deleteMany: {},
           create: fileData,
         },
+        include: {
+          productTags: true,
+          owner: { select: { nickname: true } },
+          likeUsers: true,
+          comments: true,
+        },
       },
     });
+    const image = await this.productImage.findUnique({ where: { productId: id } });
 
-    return product;
+    const p = { ...product };
+    p.productImages = [image];
+
+    return ProductFactory.create(p);
   }
 
-  async deleteById(id: string) {
+  async delete(id: string) {
     const product = await this.product.delete({ where: { id } });
 
-    return product;
+    return ProductFactory.create(product);
   }
 
   async like(productId: string, userId: string) {
@@ -128,7 +144,7 @@ export class ProductRepository implements IProductRepository {
       },
     });
 
-    return product;
+    return ProductFactory.create(product);
   }
 
   async unlike(productId: string, userId: string) {
@@ -140,6 +156,6 @@ export class ProductRepository implements IProductRepository {
       },
     });
 
-    return product;
+    return ProductFactory.create(product);
   }
 }

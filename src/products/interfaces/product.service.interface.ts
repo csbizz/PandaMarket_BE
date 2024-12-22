@@ -1,13 +1,12 @@
 import { ProductInputDTO, ProductOutputDTO } from '#products/product.types.js';
 import { FindOptions } from '#types/options.type.js';
-import { Product } from '@prisma/client';
 
 export interface IProductService {
-  getProducts: (options: FindOptions) => Promise<{ totalCount: number; list: Product[] }>;
+  getProducts: (options: FindOptions) => Promise<{ totalCount: number; list: ProductOutputDTO[] }>;
   getProduct: (id: string) => Promise<ProductOutputDTO>;
-  postProduct: (data: ProductInputDTO) => Promise<{ product: Product; imageUrl: string }>;
-  patchProduct: (id: string, data: Partial<ProductInputDTO>) => Promise<Product>;
-  deleteProduct: (id: string) => Promise<Product>;
-  postProductLike: (productId: string) => Promise<{ product: Product; isLiked: boolean }>;
-  deleteProductLike: (productId: string) => Promise<{ product: Product; isLiked: boolean }>;
+  postProduct: (data: ProductInputDTO) => Promise<ProductOutputDTO>;
+  patchProduct: (id: string, data: Partial<ProductInputDTO>) => Promise<ProductOutputDTO>;
+  deleteProduct: (id: string) => Promise<ProductOutputDTO>;
+  postProductLike: (productId: string) => Promise<{ product: ProductOutputDTO; isLiked: boolean }>;
+  deleteProductLike: (productId: string) => Promise<{ product: ProductOutputDTO; isLiked: boolean }>;
 }
