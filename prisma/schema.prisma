@@ -14,15 +14,16 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email        String  @unique
   nickname     String
   image        String?
   password     String
   salt         String
   refreshToken String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
 
   products     Product[] @relation(name: "productOwnership")
   likeProducts Product[] @relation(name: "UserLikesProduct")
@@ -32,13 +33,14 @@ model User {
 }
 
 model Product {
-  id          String   @id @default(uuid())
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   name        String //min 1, max 10
   description String //min 10, max 100
   price       Int //min 1
-  likeCount   Int      @default(0) //min 0 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  likeCount   Int    @default(0) //min 0 
 
   owner         User?          @relation(name: "productOwnership", fields: [ownerId], references: [id], onDelete: SetNull)
   ownerId       String?
@@ -51,7 +53,10 @@ model Product {
 }
 
 model ProductTag {
-  id  String @id @default(uuid())
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   tag String
 
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
@@ -59,7 +64,10 @@ model ProductTag {
 }
 
 model ProductImage {
-  id           String @id @default(uuid())
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   originalName String
   fileName     String
 
@@ -69,11 +77,12 @@ model ProductImage {
 
 model Article {
   id        String   @id @default(uuid())
-  title     String
-  content   String
-  likeCount Int      @default(0) //min 0
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  title     String
+  content   String
+  likeCount Int    @default(0) //min 0
 
   owner         User?          @relation(fields: [ownerId], references: [id], name: "articleOwnership", onDelete: SetNull)
   ownerId       String?
@@ -85,7 +94,10 @@ model Article {
 }
 
 model ArticleImage {
-  id    String @id @default(uuid())
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   image String
 
   article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
@@ -94,9 +106,10 @@ model ArticleImage {
 
 model Comment {
   id        String   @id @default(uuid())
-  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  content String
 
   owner     User?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
   ownerId   String?
