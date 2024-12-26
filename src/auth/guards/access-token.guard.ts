@@ -1,6 +1,6 @@
-import { InternalServerErrorException } from '#exceptions/http.exception.js';
+import { InternalServerErrorException, UnauthorizedException } from '#exceptions/http.exception.js';
 import { IStorage } from '#types/common.types.js';
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AsyncLocalStorage } from 'async_hooks';

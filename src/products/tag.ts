@@ -1,15 +1,5 @@
-import { ModelBase } from '#types/common.types.js';
-
-export interface ProductTagProperties extends ModelBase {
-  tag: string;
-  productId: string;
-}
-
-export interface IProductTag {
-  value: string;
-  values: ProductTagProperties;
-  productId: string;
-}
+import { IProductTag } from '#products/interfaces/tag.interface.js';
+import { ProductTagProperties } from '#products/product.types.js';
 
 export class ProductTag implements IProductTag {
   private readonly id: string;

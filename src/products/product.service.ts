@@ -3,6 +3,7 @@ import { IProductService } from '#products/interfaces/product.service.interface.
 import { ProductNotFoundException } from '#products/product.exception.js';
 import { ProductRepository } from '#products/product.repository.js';
 import { ProductInputDTO } from '#products/product.types.js';
+import { ProductTag } from '#products/tag.js';
 import { IStorage } from '#types/common.types.js';
 import { FindOptions } from '#types/options.type.js';
 import { Injectable } from '@nestjs/common';
@@ -30,7 +31,7 @@ export class ProductService implements IProductService {
 
   async getProduct(id: string) {
     const product = await this.productRepository.findById(id);
-    if (!product) throw new ProductNotFoundException();
+    if (!product.id) throw new ProductNotFoundException();
 
     return product.output;
   }
@@ -44,19 +45,32 @@ export class ProductService implements IProductService {
 
   async patchProduct(id: string, body: Partial<ProductInputDTO>) {
     const target = await this.productRepository.findById(id);
-    if (!target) throw new ProductNotFoundException();
+    if (!target.id) throw new ProductNotFoundException();
 
     const { userId } = this.als.getStore();
     if (target.ownerId !== userId) throw new ForbiddenException();
 
-    const product = await this.productRepository.update(id, body);
+    const { tags, file, ...rest } = body;
+
+    if (tags?.length) {
+      const productTags = tags.map(tag => new ProductTag({ tag, productId: id }));
+      target.tags = productTags;
+    }
+    if (file) {
+      const productImages = [{ originalName: file.originalname, fileName: file.filename, productId: id }];
+      target.images = productImages;
+    }
+    target.values = rest;
+
+    // const product = await this.productRepository.update(id, body);
+    const product = await this.productRepository.update(target);
 
     return product.output;
   }
 
   async deleteProduct(id: string) {
     const target = await this.productRepository.findById(id);
-    if (!target) throw new ProductNotFoundException();
+    if (!target.id) throw new ProductNotFoundException();
 
     const { userId } = this.als.getStore();
     if (target.ownerId !== userId) throw new ForbiddenException();
@@ -68,7 +82,7 @@ export class ProductService implements IProductService {
 
   async postProductLike(productId: string) {
     const target = await this.productRepository.findById(productId);
-    if (!target) throw new ProductNotFoundException();
+    if (!target.id) throw new ProductNotFoundException();
 
     const { userId } = this.als.getStore();
     if (target.ownerId !== userId) throw new ForbiddenException();
@@ -79,7 +93,7 @@ export class ProductService implements IProductService {
 
   async deleteProductLike(productId: string) {
     const target = await this.productRepository.findById(productId);
-    if (!target) throw new ProductNotFoundException();
+    if (!target.id) throw new ProductNotFoundException();
 
     const { userId } = this.als.getStore();
     if (target.ownerId !== userId) throw new ForbiddenException();

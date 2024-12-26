@@ -1,30 +1,10 @@
-import { IProductImage } from '#products/image.js';
-import { ProductOutputDTO } from '#products/product.types.js';
-import { IProductTag } from '#products/tag.js';
-import { ModelBase } from '#types/common.types.js';
-
-export interface ProductProperties extends ModelBase {
-  name: string;
-  description: string;
-  price: number;
-  likeCount: number;
-  ownerId: string;
-  ownerNickname?: string;
-  likeUsers?: string[]; // TODO User로 변경
-  comments?: string[]; // TODO Comment로 변경
-  productTags?: IProductTag[];
-  productImages?: IProductImage[];
-}
-
-export interface IProduct {
-  id: string;
-  tags: IProductTag[];
-  images: IProductImage[];
-  get ownerId(): string;
-  get values(): ProductProperties;
-  set values(data: Partial<ProductProperties>);
-  get output(): ProductOutputDTO;
-}
+import { Comment } from '#comments/comment.types.js';
+import { IProductImage } from '#products/interfaces/image.interface.js';
+import { IProduct } from '#products/interfaces/product.interface.js';
+import { IProductTag } from '#products/interfaces/tag.interface.js';
+import { ProductOutputDTO, ProductProperties } from '#products/product.types.js';
+import filterProperties from '#utils/filterProperties.js';
+import { User } from '@prisma/client';
 
 export class Product implements IProduct {
   private readonly _id?: string;
@@ -36,10 +16,10 @@ export class Product implements IProduct {
   private price: number;
   private likeCount: number;
   private readonly _ownerId: string;
-  private readonly ownerNickname: string;
+  private readonly _ownerNickname: string;
 
-  private likeUsers?: string[]; // TODO User로 변경
-  private comments?: string[]; // TODO Comment로 변경
+  private likeUsers?: User[];
+  private comments?: Comment[];
   private productTags?: IProductTag[];
   private productImages?: IProductImage[];
 
@@ -53,7 +33,7 @@ export class Product implements IProduct {
     this.price = properties.price;
     this.likeCount = properties.likeCount;
     this._ownerId = properties.ownerId;
-    this.ownerNickname = properties.ownerNickname;
+    this._ownerNickname = properties.ownerNickname;
 
     this.likeUsers = properties.likeUsers;
     this.comments = properties.comments;
@@ -85,12 +65,16 @@ export class Product implements IProduct {
     return this._ownerId;
   }
 
+  get ownerNickname(): string {
+    return this._ownerNickname;
+  }
+
   get values(): ProductProperties {
     const filter = [];
 
     // NOTE _로 시작하는 프로퍼티를 가공
-    const properties = Object.getOwnPropertyNames(this).map(prop => (prop.startsWith('_') ? prop.slice(1) : prop));
-    const filtered = properties.filter(prop => !filter.includes(prop));
+    const properties = Object.getOwnPropertyNames(this).map(prop => this.withoutUnderScore(prop));
+    const filtered = filterProperties(properties, filter);
     const values = filtered.reduce((acc, prop) => ({ ...acc, [prop]: this[prop as keyof this] }), {});
 
     return values as ProductProperties;
@@ -98,12 +82,11 @@ export class Product implements IProduct {
 
   set values(data: Partial<ProductProperties>) {
     const readonly = ['id', 'createdAt', 'updatedAt', 'ownerId', 'ownerNickname'];
-    const filteredData = { ...data };
-    readonly.forEach(key => delete filteredData[key]);
+    const filteredData = filterProperties(data, readonly);
 
     const properties = Object.getOwnPropertyNames(this);
     properties.forEach(prop => {
-      const key = prop.startsWith('_') ? prop.slice(1) : prop;
+      const key = this.withoutUnderScore(prop);
 
       if (key in filteredData) {
         (this[prop as keyof this] as unknown) = filteredData[key as keyof ProductProperties];
@@ -113,10 +96,7 @@ export class Product implements IProduct {
 
   get output(): ProductOutputDTO {
     const filter = ['productTags', 'productImages'];
-    const values = this.values;
-    filter.forEach(prop => delete values[prop]);
-
-    const result = { ...values };
+    const result = filterProperties(this.values, filter);
 
     if (this.productTags) {
       const tags = this.productTags.map(tag => tag.value);
@@ -127,6 +107,26 @@ export class Product implements IProduct {
       result['images'] = images;
     }
 
+    return result as ProductOutputDTO;
+  }
+
+  get toDB(): Partial<ProductProperties> {
+    const filter = [
+      'createdAt',
+      'updatedAt',
+      'ownerId',
+      'ownerNickname',
+      'productTags',
+      'productImages',
+      'likeUsers',
+      'comments',
+    ];
+    const result = filterProperties<ProductProperties>(this.values, filter);
+
     return result;
+  }
+
+  private withoutUnderScore(key: string): string {
+    return key.startsWith('_') ? key.slice(1) : key;
   }
 }

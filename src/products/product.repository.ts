@@ -1,7 +1,7 @@
 import { PrismaService } from '#global/prisma.service.js';
+import { IProduct } from '#products/interfaces/product.interface.js';
 import { IProductRepository } from '#products/interfaces/product.repository.interface.js';
-import { ProductFactory } from '#products/product.factory.js';
-import { IProduct } from '#products/product.js';
+import { ProductEntity, ProductFactory } from '#products/product.factory.js';
 import { ProductCreateDTO } from '#products/product.types.js';
 import { OrderByCondition, WhereCondition } from '#types/conditions.type.js';
 import { FindOptions, SortOrder } from '#types/options.type.js';
@@ -59,7 +59,7 @@ export class ProductRepository implements IProductRepository {
       skip: (page - 1) * pageSize,
     });
 
-    return products.map(p => ProductFactory.create(p) as IProduct);
+    return products.map(p => ProductFactory.create(p));
   }
 
   async findById(id: string) {
@@ -82,49 +82,50 @@ export class ProductRepository implements IProductRepository {
     const product = await this.product.create({ data });
     const newTags = tags.map(tag => ({ tag, productId: product.id }));
 
-    const createdTags = await this.productTag.createMany({
+    await this.productTag.createMany({
       data: newTags,
       skipDuplicates: true,
     });
 
-    const fileData = { originalName: file.originalname, fileName: file.filename, productId: product.id };
-    const image = await this.productImage.create({ data: fileData, select: { fileName: true } });
+    const fileData = file ? { originalName: file.originalname, fileName: file.filename, productId: product.id } : null;
+    const image = fileData ? await this.productImage.create({ data: fileData }) : null;
 
-    const p = { ...product };
-    p.productTags = createdTags;
-    p.productImages = [image];
+    const p: ProductEntity = { ...product };
+    p.productTags = newTags;
+    p.productImages = image ? [image] : [];
 
     return ProductFactory.create(p);
   }
 
-  async update(id: string, body: Partial<ProductCreateDTO>) {
-    const { tags, file, ...data } = body;
-    const fileData = { originalName: file.originalname, fileName: file.filename, productId: id };
+  async update(product: IProduct) {
+    const { id, ...data } = product.toDB;
+    const imageData = product.images?.map(i => ({ originalName: i.originalName, fileName: i.fileName })) || [];
+    const tagData = product.tags?.map(t => ({ tag: t.value })) || [];
 
-    const product = await this.product.update({
+    const updated = await this.product.update({
       where: { id },
       data: {
         ...data,
         productTags: {
           deleteMany: {},
-          create: tags.map(tag => ({ tag, productId: id })),
+          create: tagData,
         },
         productImages: {
           deleteMany: {},
-          create: fileData,
-        },
-        include: {
-          productTags: true,
-          owner: { select: { nickname: true } },
-          likeUsers: true,
-          comments: true,
+          create: imageData,
         },
       },
+      include: {
+        productTags: true,
+        owner: { select: { nickname: true } },
+        likeUsers: true,
+        comments: true,
+      },
     });
-    const image = await this.productImage.findUnique({ where: { productId: id } });
+    const image = await this.productImage.findMany({ where: { productId: id } });
 
-    const p = { ...product };
-    p.productImages = [image];
+    const p: ProductEntity = { ...updated };
+    p.productImages = image;
 
     return ProductFactory.create(p);
   }

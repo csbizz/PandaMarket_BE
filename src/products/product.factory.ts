@@ -1,8 +1,10 @@
-import { ProductImage, ProductImageProperties } from '#products/image.js';
-import { IProduct, Product, ProductProperties } from '#products/product.js';
-import { ProductTag, ProductTagProperties } from '#products/tag.js';
+import { ProductImage } from '#products/image.js';
+import { IProduct } from '#products/interfaces/product.interface.js';
+import { Product } from '#products/product.js';
+import { ProductImageProperties, ProductProperties, ProductTagProperties } from '#products/product.types.js';
+import { ProductTag } from '#products/tag.js';
 
-interface ProductEntity extends Omit<ProductProperties, 'ownerNickname' | 'productTags' | 'productImages'> {
+export interface ProductEntity extends Omit<ProductProperties, 'ownerNickname' | 'productTags' | 'productImages'> {
   productTags?: ProductTagProperties[];
   productImages?: ProductImageProperties[];
   owner?: { nickname: string };

@@ -1,7 +1,7 @@
 import { BaseException } from '#exceptions/base.exception.js';
-import { UnCatchedException } from '#exceptions/common.exception.js';
+import { UncaughtException } from '#exceptions/common.exception.js';
 import formatTimestamp from '#utils/format-timestamp.js';
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Catch()
@@ -11,7 +11,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
-    const res = exception instanceof BaseException ? exception : new UnCatchedException();
+    let res;
+    if (exception instanceof BaseException) {
+      res = exception;
+    } else if (exception instanceof HttpException) {
+      res = exception.getResponse();
+    } else {
+      res = new UncaughtException();
+    }
 
     res.timestamp = formatTimestamp(new Date());
     res.path = request.url;

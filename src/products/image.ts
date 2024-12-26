@@ -1,16 +1,5 @@
-import { ModelBase } from '#types/common.types.js';
-
-export interface ProductImageProperties extends ModelBase {
-  originalName: string;
-  fileName: string;
-  productId: string;
-}
-
-export interface IProductImage {
-  originalName: string;
-  fileName: string;
-  productId: string;
-}
+import { IProductImage } from '#products/interfaces/image.interface.js';
+import { ProductImageProperties } from '#products/product.types.js';
 
 export class ProductImage implements IProductImage {
   private readonly id: string;

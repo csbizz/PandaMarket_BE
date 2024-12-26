@@ -1,7 +1,7 @@
 import { IStorage } from '#types/common.types.js';
-import { UserService } from '#users/user.service.js';
 import isEmpty from '#utils/isEmpty.js';
 import logger from '#utils/logger.js';
+import stringifyJson from '#utils/stringifyJson.js';
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { AsyncLocalStorage } from 'async_hooks';
 import { Observable, tap } from 'rxjs';
@@ -19,10 +19,7 @@ enum LogType {
 
 @Injectable()
 export class LogInterceptor implements NestInterceptor {
-  constructor(
-    private readonly als: AsyncLocalStorage<IStorage>,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly als: AsyncLocalStorage<IStorage>) {}
 
   intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
     const req = context.switchToHttp().getRequest();
@@ -70,7 +67,8 @@ export class LogInterceptor implements NestInterceptor {
   logError(error: any) {
     if (isEmpty(error)) return;
 
-    logger.error(`Error: ${this.stringifyJson(error)}`);
+    logger.error(`${error instanceof Error ? error : `Error: ` + stringifyJson(error)}`);
+    if (error instanceof Error) logger.error(`${error.stack}`);
   }
 
   logBase(target: any, messageType: MessageType, logType: LogType, filters: string[]) {
@@ -82,10 +80,6 @@ export class LogInterceptor implements NestInterceptor {
       delete filtered[filter];
     }
 
-    logger.info(`${messageType} ${logType}: ${this.stringifyJson(filtered)}`);
-  }
-
-  stringifyJson(target: object) {
-    return JSON.stringify(target, null, 2);
+    logger.info(`${messageType} ${logType}: ${stringifyJson(filtered)}`);
   }
 }
